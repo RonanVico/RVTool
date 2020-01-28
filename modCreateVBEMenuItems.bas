@@ -5,8 +5,8 @@ Option Explicit
 'Feito Por: Ronan Vico
 'Descrição: Este módulo possui Rotinas para criação do botão na Barra de Comandos do VBE (Visual Basic Editor)
 '           é necessario toda vez que iniciar a aplicação instanciar a barra novamente ,pois ela funciona com eventos
-'           Também é possivel rodar manualmente a rotina InitVBRVTools.
-'Como usar?: Apenas rode InitVBRVTools e ela instanciara a barra de comando.
+'           Também é possivel rodar manualmente a rotina InitVBRVTool.
+'Como usar?: Apenas rode InitVBRVTool e ela instanciara a barra de comando.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Private MenuEvent As CVBECommandHandler
 Private CmdBarItem As CommandBarButton 'CommandBarControl
@@ -17,7 +17,7 @@ Private cmbar As Office.CommandBar
 
 Private Const C_TAG = "MY_VBE_TAG"
 Private Const C_RV_TOOLS_BAR As String = "RV"
-Public Const C_APPNAME As String = "RVTOOLS"
+Public Const C_APPNAME As String = "RVTool"
 Public Const C_SECTION_COPIAR As String = "COPIAR"
 Public Const C_SECTION_COLAR As String = "COPIAR"
 
@@ -30,7 +30,7 @@ Private Enum ControlsType
         msoControlPopup = 10
 End Enum
 
-Sub InitVBRVTools()
+Sub InitVBRVTool()
 Dim cpop                               As CommandBarPopup
 Dim cpopColar                          As CommandBarPopup
 Dim cpopCopiar                         As CommandBarPopup
@@ -152,7 +152,7 @@ Dim FaceID                             As Long
     Call AddMenuButton("DARK THEME", True, "Change_color_Dark_Theme", 9534, cpop)
     Call AddMenuButton("WHITE THEME DEFAULT", False, "Change_color_White_Theme", 9535, cpop)
     '----------------------------------------------------------
-    Call AddMenuButton("Atualizar RV_TOOLS", False, "Atualizar_RVTOOLS", 654)
+    Call AddMenuButton("Atualizar RV_TOOLS", False, "Atualizar_RVTool", 654)
     '-----------------------------------------------------------------
     Call AddMenuButton("About Creator", True, "aboutme", 59) '66
     '--

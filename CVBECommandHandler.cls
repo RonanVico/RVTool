@@ -23,7 +23,7 @@ Private Sub EvtHandler_Click(ByVal CommandBarControl As Object, _
    ' CommandBarControl.Reset
     On Error Resume Next
     'Reinstanciar a barra
-    Call CallByName(Application, "OnTime", VbMethod, VBA.Now() + VBA.TimeSerial(0, 0, 5), "InitVBRVTools")
+    Call CallByName(Application, "OnTime", VbMethod, VBA.Now() + VBA.TimeSerial(0, 0, 5), "InitVBRVTool")
     'Application.Run CommandBarControl.OnACtion
     Dim tool As New cTOOLS
     
@@ -41,7 +41,7 @@ Private Sub EvtHandler_Click(ByVal CommandBarControl As Object, _
     CancelDefault = True
     
     'Reinstanciar a barra
-    Call CallByName(Application, "OnTime", VbMethod, VBA.Now(), "InitVBRVTools")
+    Call CallByName(Application, "OnTime", VbMethod, VBA.Now(), "InitVBRVTool")
     
     
 End Sub

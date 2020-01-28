@@ -1313,7 +1313,7 @@ On Error GoTo TError
 
     Set vbproj = Application.VBE.ActiveVBProject
 
-    If vbproj.Filename Like "*RvTools*" Then Exit Sub
+    If vbproj.Filename Like "*RVTool*" Then Exit Sub
     
     For Each vbCOMP In vbproj.VBComponents
         Set CodeMod = vbCOMP.CodeModule
@@ -1350,10 +1350,10 @@ Public Sub Change_color_Dark_Theme()
 End Sub
 
 
-Public Sub Atualizar_RVTOOLS()
+Public Sub Atualizar_RVTool()
 
     If ThisWorkbook.VBProject.Protection = vbext_pp_locked Then
-        MsgBox "Desproteja o VBE do RVTOOLS!", vbExclamation, "ATENÇÃO!"
+        MsgBox "Desproteja o VBE do RVTool!", vbExclamation, "ATENÇÃO!"
         Exit Sub
     End If
     
@@ -1370,20 +1370,20 @@ On Error GoTo TError
     Dim i                    As Long
     Dim File   As String
     Dim Folder As String
-    Const URL_PROJETO = "https://github.com/RonanVico/RVTools/archive/master.zip"
+    Const URL_PROJETO = "https://github.com/RonanVico/RVTool/archive/master.zip"
     
     
-    Folder = ThisWorkbook.Path & "\RvTools" & VBA.Format(VBA.Now(), "ddmmyyyyhhmmss") & "new"
+    Folder = ThisWorkbook.Path & "\RVTool" & VBA.Format(VBA.Now(), "ddmmyyyyhhmmss") & "new"
     Call VBA.FileSystem.MkDir(Folder)
     Call URLDownloadToFile(0, URL_PROJETO, Folder & ".zip", 0, 0)
-    File = Folder & ".zip\RVTools-master"
+    File = Folder & ".zip\RVTool-master"
     With CreateObject("Shell.Application")
         .Namespace(Folder & "\").copyHere .Namespace(Folder & ".zip\").Items
     End With
     
     For i = 1 To 1000: VBA.DoEvents: Next i
     
-    PASTA = Folder & "\RVTools-master"
+    PASTA = Folder & "\RVTool-master"
     Set fold = FSO.GetFolder(PASTA)
     Set vbproj = ThisWorkbook.VBProject
     For Each fl In fold.Files
@@ -1428,7 +1428,7 @@ Sub TryTodeleteFolder()
     Set fold = FSO.GetFolder(ThisWorkbook)
     
     For Each fold2 In fold
-        If VBA.LCase(fold2.Name) Like "*rvtools*new*" Then
+        If VBA.LCase(fold2.Name) Like "*RVTool*new*" Then
             For Each fl In fold2
                 fl.Delete
             Next fl
@@ -1462,7 +1462,7 @@ On Error GoTo TError
     Set actWB = ActiveWorkbook
     Set vbproj = Application.VBE.ActiveVBProject
 
-    If vbproj.Filename Like "*RvTools*" Then Exit Sub
+    If vbproj.Filename Like "*RVTool*" Then Exit Sub
     
 
     VBA.DoEvents
