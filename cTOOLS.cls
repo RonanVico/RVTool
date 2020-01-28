@@ -1427,11 +1427,8 @@ Sub TryTodeleteFolder()
     
     Set fold = FSO.GetFolder(ThisWorkbook.path)
     
-    For Each fold2 In fold
-        If VBA.LCase(fold2.Name) Like "*RVTool*new*" Then
-            For Each fl In fold2
-                fl.Delete
-            Next fl
+    For Each fold2 In fold.SubFolders
+        If VBA.LCase(fold2.Name) Like "*rvtool*new*" Then
             fold2.Delete
         End If
     Next fold2
