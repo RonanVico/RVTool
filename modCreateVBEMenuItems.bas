@@ -1,10 +1,10 @@
 Attribute VB_Name = "modCreateVBEMenuItems"
 Option Explicit
-'VERSÃO  1.01.0
+'VERSaO  1.01.0
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 'Feito Por: Ronan Vico
-'Descrição: Este módulo possui Rotinas para criação do botão na Barra de Comandos do VBE (Visual Basic Editor)
-'           é necessario toda vez que iniciar a aplicação instanciar a barra novamente ,pois ela funciona com eventos
+'Descricao: Este módulo possui Rotinas para criacao do botao na Barra de Comandos do VBE (Visual Basic Editor)
+'           é necessario toda vez que iniciar a aplicacao instanciar a barra novamente ,pois ela funciona com eventos
 '           Também é possivel rodar manualmente a rotina InitVBRVTool.
 'Como usar?: Apenas rode InitVBRVTool e ela instanciara a barra de comando.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -78,10 +78,10 @@ Dim FaceID                             As Long
         .TooltipText = "Listar"
     End With
     
-    Call AddMenuButton("Inserir &Cabeçalho", True, "inserirCabeçalhoNaProcedure", 12, cpop)
+    Call AddMenuButton("Inserir &Cabecalho", True, "InserirCabecalhoNaProc", 12, cpop)
     Call AddMenuButton("Inserir &Error Treatment", False, "inserirTratamentoDeErro", 464, cpop)
-    Call AddMenuButton("Inserir &Númeração nas Linhas", True, "inserirNumeracaoDeLinha", 9680, cpop)
-    Call AddMenuButton("Remover &Númeração nas Linhas", False, "Retirar_Númeração_De_Linhas", 4171, cpop) '66
+    Call AddMenuButton("Inserir &Númeracao nas Linhas", True, "inserirNumeracaoDeLinha", 9680, cpop)
+    Call AddMenuButton("Remover &Númeracao nas Linhas", False, "RetirarNumeraCaoDeLinhas", 4171, cpop) '66
     Call AddMenuButton("Identar &Variaveis", True, "IdentaVariaveis", 123, cpop)
     '--------------------------------------------
     With cbBarTOOL
@@ -126,7 +126,7 @@ Dim FaceID                             As Long
 
 
     '-------------------------------------------
-    Call AddMenuButton("Verificar Variaveis não Utilizadas", True, "Verifica_Variaveis", 202)
+    Call AddMenuButton("Verificar Variaveis nao Utilizadas", True, "Verifica_Variaveis", 202)
     Set cpop = cbBarTOOL.Controls.Add(10)
     With cpop
         .BeginGroup = False

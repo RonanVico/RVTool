@@ -3,11 +3,14 @@ Option Explicit
 
 
 Public Sub MinhaSubZoada1()
- Dim a, b As Integer, c As Long, d
- Dim aa, bb, cas
-
-
+      Dim a, b As Integer, c As Long, d
+      Dim aa, bb, cas
+    
 End Sub
+
+
+
+
 
 Public Sub MinhaSubZoada3 _
 ()

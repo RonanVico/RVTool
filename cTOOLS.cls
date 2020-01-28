@@ -9,16 +9,16 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 'Teste ASD
-'VERS√ÉO  1.01.5
+'VERSaÉO  1.01.5
 
-'*MANUTEN√á√ïES / MELHORIAS*
+'*MANUTENaáaïES / MELHORIAS*
 'Criado por: Ronan Raphael Vico // ronanvico@hotmail.com // https://br.linkedin.com/in/ronan-vico
-'   Descri√ß√£o:M√≥dulo utilizado para programar o IDE VBE, facilitando cria√ß√£o de rotinas e manuten√ß√£o de c√≥digos.
-'       as rotinas ser√£o utilizadas em bot√µes programaveis na barra de comandos do VBE dentro do EXCEL
+'   Descriaßa£o:Ma≥dulo utilizado para programar o IDE VBE, facilitando criaaßa£o de rotinas e manutenaßa£o de ca≥digos.
+'       as rotinas sera£o utilizadas em botaµes programaveis na barra de comandos do VBE dentro do EXCEL
 '
 '
 '
-' C√≥digos utilizados como ajuda e fornecedores
+' Ca≥digos utilizados como ajuda e fornecedores
 ' 1- GetProcedureDeclaration  e ProcedureInfo - Made By CPearson
 '----------------------------------------------------------------------------------------------------------------------------
 #If VBA7 Then
@@ -58,7 +58,7 @@ Private pInfo           As ProcInfo
        
         
 '-------- PARAMETROS
-'-------- ABAIXO EST√ÉO OS PARAMETROS UTILIZADOS PARA PROGRAMA√á√ÉO
+'-------- ABAIXO ESTaÉO OS PARAMETROS UTILIZADOS PARA PROGRAMAaáaÉO
 Private Const QUEBRA_DE_LINHA                As String = "_VBNEWLINE!"
 Private Const tagVarInit                     As String = "[V@_"
 Private Const tagVarEnd                      As String = "@]"
@@ -70,7 +70,7 @@ Private Const tagVarEnd                      As String = "@]"
 ' Autor.....: RONAN VICO
 ' Contato...: RONANVICO@hotmail.com
 ' Data......: 14/05/2019
-' Descri√ß√£o.: Retorna o cabe√ßalho
+' Descriaßa£o.: Retorna o cabeaßalho
 '---------------------------------------------------------------------------------------
 Private Property Get PARAM_HEADER_DEFAULT() As String
 pInfo = ProcedureInfo(ActiveProcedure, Application.VBE.ActiveCodePane.CodeModule, pInfo.procKind)
@@ -78,7 +78,7 @@ PARAM_HEADER_DEFAULT = "'-------------------------------------------------------
     vbNewLine & "' Autor.....: " & PARAM_PROGRAMADOR & _
     vbNewLine & "' Contato...: " & PARAM_PROGRAMADOR_MAIL & " - Empresa: " & PARAM_EMPRESA & " - Rotina: " & VBA.Replace(pInfo.ProcDeclaration, "_" & vbNewLine, "") & _
     vbNewLine & "' Data......: " & VBA.CStr(VBA.Date) & _
-    vbNewLine & "' Descri√ß√£o.: " & _
+    vbNewLine & "' Descriaßa£o.: " & _
     vbNewLine & "'---------------------------------------------------------------------------------------"
 'PARAM_HEADER_DEFAULT = "'---------------------------------------------------------------------------------------" & _
     vbNewLine & "' Modulo....: " & Application.VBE.ActiveCodePane.CodeModule & " \ " & VBA.TypeName(Application.VBE.ActiveCodePane.CodeModule) & _
@@ -87,7 +87,7 @@ PARAM_HEADER_DEFAULT = "'-------------------------------------------------------
     vbNewLine & "' Contato...: " & PARAM_PROGRAMADOR_MAIL & _
     vbNewLine & "' Data......: " & VBA.CStr(VBA.Date) & _
     vbNewLine & "' Empresa...: " & PARAM_EMPRESA & _
-    vbNewLine & "' Descri√ß√£o.: " & _
+    vbNewLine & "' Descriaßa£o.: " & _
     vbNewLine & "'---------------------------------------------------------------------------------------"
 End Property
  
@@ -103,11 +103,11 @@ Private Property Get PARAM_ERROR_HANDLER_DEFAULT() As String
                             & "     Call MOSTRAR_ERRO(Err.Number, Err.Description, """ & ActiveProcedure & "()"")" & vbNewLine _
                             & "     Goto Fim"
    ' PARAM_ERROR_HANDLER_DEFAULT = PARAM_ERROR_HANDLER_NAME & ":" & vbNewLine _
-        & VBA.String(2, PARAM_CHAR_IDENTA√á√ÉO) & "select case err.number " & vbNewLine _
-            & VBA.String(4, PARAM_CHAR_IDENTA√á√ÉO) & "case 0 " & vbNewLine _
-            & VBA.String(4, PARAM_CHAR_IDENTA√á√ÉO) & "case else " & vbNewLine _
-                & VBA.String(6, PARAM_CHAR_IDENTA√á√ÉO) & "msgbox err.description  & "" "" & Err.number , vbCritical " & vbNewLine _
-        & VBA.String(2, PARAM_CHAR_IDENTA√á√ÉO) & "end Select"
+        & VBA.String(2, PARAM_CHAR_IDENTAaáaÉO) & "select case err.number " & vbNewLine _
+            & VBA.String(4, PARAM_CHAR_IDENTAaáaÉO) & "case 0 " & vbNewLine _
+            & VBA.String(4, PARAM_CHAR_IDENTAaáaÉO) & "case else " & vbNewLine _
+                & VBA.String(6, PARAM_CHAR_IDENTAaáaÉO) & "msgbox err.description  & "" "" & Err.number , vbCritical " & vbNewLine _
+        & VBA.String(2, PARAM_CHAR_IDENTAaáaÉO) & "end Select"
 End Property
 '/\--------PARAMETROS------/\------------/\------------/\--------------/\-------------/\
 
@@ -143,19 +143,19 @@ End Property
 '/\------------/\------------/\--------------/\-------------/\---------------------
  
  
-'-------------Parte 3 Fun√ß√µes que ir√£o mudar o mundo do VBA ------------------------------------
+'-------------Parte 3 Funaßaµes que ira£o mudar o mundo do VBA ------------------------------------
 Public Sub inserirTratamentoDeErro()
     Dim nLinha          As Long
     Dim slinha          As String
     Dim sSplit
     Dim linQuebrada     As Long
     On Error GoTo t
-    'Verifica se est√° numa procedure
+    'Verifica se esta° numa procedure
     If ActiveProcedure = "" Then Exit Sub
  
     pInfo = ProcedureInfo(ActiveProcedure, Application.VBE.ActiveCodePane.CodeModule, pInfo.procKind)
     
-    'Verifica se a declara√ß√£o esta quebrada
+    'Verifica se a declaraaßa£o esta quebrada
     For nLinha = pInfo.ProcBodyLine To (pInfo.ProcCountLines + pInfo.ProcBodyLine)
          slinha = Application.VBE.ActiveCodePane.CodeModule.Lines(nLinha, 1)
          If VBA.Right(slinha, 1) = "_" Then
@@ -166,7 +166,7 @@ Public Sub inserirTratamentoDeErro()
     Next nLinha
     
     
-    'Insere na primeira linha o on error e na ultima o texto padr√£o
+    'Insere na primeira linha o on error e na ultima o texto padra£o
     For nLinha = pInfo.ProcStartLine + pInfo.ProcCountLines - 1 To pInfo.ProcStartLine + 2 Step -1
         slinha = Application.VBE.ActiveCodePane.CodeModule.Lines(nLinha, 1)
         For Each sSplit In VBA.Split(slinha, ":")
@@ -194,21 +194,21 @@ End Sub
  
  
  
-'-------------Parte 3 Fun√ß√µes que ir√£o mudar o mundo do VBA ------------------------------------
+'-------------Parte 3 Funaßaµes que ira£o mudar o mundo do VBA ------------------------------------
 '---------------------------------------------------------------------------------------
-' Modulo....: vbProjcet / M√≥dulo
-' Rotina....: Public Sub inserirCabe√ßalhoNaProcedure()
+' Modulo....: vbProjcet / Ma≥dulo
+' Rotina....: Public Sub inserirCabeaßalhoNaProcedure()
 ' Autor.....: RONAN VICO
 ' Contato...: RONANVICO@hotmail.com
 ' Data......: 23/04/2019
-' Descri√ß√£o.: Insere cabe√ßalho na procedure (Utilizei ela mesmo para criar esse cabe√ßalho aqui ;)
+' Descriaßa£o.: Insere cabeaßalho na procedure (Utilizei ela mesmo para criar esse cabeaßalho aqui ;)
 '---------------------------------------------------------------------------------------
-Public Sub inserirCabe√ßalhoNaProcedure()
+Public Sub InserirCabecalhoNaProc()
     Dim nLinha          As Long
     Dim slinha          As String
     Dim sSplit
     On Error GoTo t
-    'Verifica se est√° numa procedure
+    'Verifica se esta° numa procedure
     If ActiveProcedure = "" Then Exit Sub
     'ebug.Print ActiveProcedure
     pInfo = ProcedureInfo(ActiveProcedure, Application.VBE.ActiveCodePane.CodeModule, pInfo.procKind)
@@ -294,8 +294,8 @@ End Sub
  
 Public Sub IdentaVariaveis()
     On Error GoTo f
-    'Cara , n√£o vou explicar essa fun√ß√£o porque nem eu sei oq eu fiz , _
-                essa fun√ß√£o segue as leis de software internacional e de Deus , pois s√≥ ele _
+    'Cara , na£o vou explicar essa funaßa£o porque nem eu sei oq eu fiz , _
+                essa funaßa£o segue as leis de software internacional e de Deus , pois sa≥ ele _
                 deve saber como isso funciona
  
  'Dim Proc                As ProcInfo
@@ -349,11 +349,11 @@ Public Sub IdentaVariaveis()
                 DimLines = VBA.Split(subLine, vbNewLine)
                 For contDimLines = 0 To UBound(DimLines)
                     DimLine = DimLines(contDimLines)
-                    'Colocando identa√ß√£o das variaveis
+                    'Colocando identaaßa£o das variaveis
                     If VBA.InStr(DimLine, " As ") = 0 Then
                         DimLine = DimLine & VBA.Strings.Space$(PARAM_TABULACAO_VARIAVEIS - (VBA.Len(DimLine) - 3)) & " As Variant"
                     ElseIf contDimLines = 0 Then
-                        'Ajuste pois dava pal se tivesse maior que a tabula√ß√£o
+                        'Ajuste pois dava pal se tivesse maior que a tabulaaßa£o
                         If PARAM_TABULACAO_VARIAVEIS > (VBA.InStr(DimLine, " As ") - 5) Then
                             DimLine = VBA.Left(DimLine, VBA.InStr(DimLine, " As ") - 1) & VBA.Strings.Space$(PARAM_TABULACAO_VARIAVEIS - (VBA.InStr(DimLine, " As ") - 5)) & VBA.Mid(DimLine, VBA.InStr(DimLine, " As ") + 1)
                         End If
@@ -379,7 +379,7 @@ Public Sub IdentaVariaveis()
             Next
         End If
  
-        '√â necessario retirar um espa√ßo em branco do canto esquerdo pois ele √© inserido sem qerer
+        'aâ necessario retirar um espaaßo em branco do canto esquerdo pois ele a© inserido sem qerer
         NovoTexto = VBA.Replace(NovoTexto, QUEBRA_DE_LINHA, " _" & VBA.Chr(13))
         If VBA.Left(NovoTexto, 2) = vbNewLine And VBA.Len(NovoTexto) <> 2 Then
             NovoTexto = VBA.Mid(NovoTexto, 3)
@@ -398,7 +398,7 @@ Public Sub IdentaVariaveis()
     
     With pInfo
         ProcBodyStart = .ProcBodyLine
-        'Retira espa√ßos em brancos , gambiarra mesmo to nem ai!
+        'Retira espaaßos em brancos , gambiarra mesmo to nem ai!
         textJoin = VBA.Join(linhas)
         textJoin = VBA.Replace(VBA.Replace(textJoin, vbNewLine & " ", vbNewLine), QUEBRA_DE_LINHA, " _" & VBA.Chr(13))
         Call Application.VBE.ActiveCodePane.CodeModule.DeleteLines(ProcBodyStart, .ProcCountLines - (ProcBodyStart - .ProcStartLine))
@@ -435,7 +435,7 @@ On Error GoTo TError
     
     
     
-    Call Retirar_N√∫mera√ß√£o_De_Linhas_da_Proc(actProc)
+    Call RetirarNumeraCaoDeLinhasProc(actProc)
     
     textoProc = PegarProcedureSemQuebraDeLinha(actProc)
     linhas = VBA.Split(textoProc, vbNewLine)
@@ -453,7 +453,7 @@ On Error GoTo TError
     
     With pInfo
         ProcBodyStart = .ProcBodyLine
-        'Retira espa√ßos em brancos , gambiarra mesmo to nem ai!
+        'Retira espaaßos em brancos , gambiarra mesmo to nem ai!
         textJoin = VBA.Join(linhas, vbNewLine)
         textJoin = VBA.Replace(VBA.Replace(textJoin, vbNewLine, vbNewLine), QUEBRA_DE_LINHA, " _ " & vbNewLine)
         Call Application.VBE.ActiveCodePane.CodeModule.DeleteLines(ProcBodyStart, .ProcCountLines - (ProcBodyStart - .ProcStartLine))
@@ -471,12 +471,12 @@ End Sub
  
 
 
-Public Sub Retirar_N√∫mera√ß√£o_De_Linhas()
+Public Sub RetirarNumeraCaoDeLinhas()
     Call ProcedureInfo(ActiveProcedure, Application.VBE.ActiveCodePane.CodeModule, pInfo.procKind)
-    Call Retirar_N√∫mera√ß√£o_De_Linhas_da_Proc(ActiveProcedure)
+    Call RetirarNumeraCaoDeLinhasProc(ActiveProcedure)
 End Sub
 
-Public Sub Retirar_N√∫mera√ß√£o_De_Linhas_da_Proc(actProc As String)
+Public Sub RetirarNumeraCaoDeLinhasProc(actProc As String)
     Dim textoProc As String
     Dim linhas
     Dim Linha As String
@@ -484,7 +484,7 @@ Public Sub Retirar_N√∫mera√ß√£o_De_Linhas_da_Proc(actProc As String)
     Dim numCarac As Long
     Dim ProcBodyStart As Long
     Dim textJoin
-    Dim pa√ßoca
+    Dim paaßoca
     
     textoProc = PegarProcedureSemQuebraDeLinha(actProc)
     linhas = VBA.Split(textoProc, vbNewLine)
@@ -504,7 +504,7 @@ Public Sub Retirar_N√∫mera√ß√£o_De_Linhas_da_Proc(actProc As String)
     
  With pInfo
         ProcBodyStart = .ProcBodyLine
-        'Retira espa√ßos em brancos , gambiarra mesmo to nem ai!
+        'Retira espaaßos em brancos , gambiarra mesmo to nem ai!
         textJoin = VBA.Join(linhas, vbNewLine)
         textJoin = VBA.Replace(VBA.Replace(textJoin, vbNewLine, vbNewLine), QUEBRA_DE_LINHA, " _ " & vbNewLine)
         Call Application.VBE.ActiveCodePane.CodeModule.DeleteLines(ProcBodyStart, .ProcCountLines - (ProcBodyStart - .ProcStartLine))
@@ -522,9 +522,9 @@ End Sub
 
  
 Public Function PegarProcedureSemQuebraDeLinha(ProcedureName As String) As String
-    'Se tiver _ no final da linha de c√≥digo , significa que a proxima linha pertence ao mesmo comando do VBA _
+    'Se tiver _ no final da linha de ca≥digo , significa que a proxima linha pertence ao mesmo comando do VBA _
                Exemplo este comentario , a linha de baixo esta comentada de vido a esse Underline localizado /\ aqui _
-               Logo , Iremos transformar tudo em "1 linha" para conseguirmos rodar fun√ß√µes de formata√ß√£o de texto _
+               Logo , Iremos transformar tudo em "1 linha" para conseguirmos rodar funaßaµes de formataaßa£o de texto _
                e posteriormente plotar de volta as qebras de llinhas no seus devidos lugares !
  
  
@@ -561,9 +561,9 @@ Public Function PegarProcedureSemQuebraDeLinha(ProcedureName As String) As Strin
 Public Function formataTexto(ByVal TextoOriginal As String, Optional ByRef MyArrVar) As String
     'Transforma todas as strings em Variaveis dentro de um array , assim podemos manipular _
             todo o texto sem medo de estar mechendo com dados dentro de string , por exemplo _
-            uma string pode ser MyString = "OLA : ' "  , Logo os caracteres ":" e "'" , s√£o _
-            importantes na nossa formata√ß√£o de texto ,e n√£o podemos consideralo na formata√ß√£o, _
-            por isso monto um array para posteriormente ap√≥s a formata√ß√£o pegar as strings e jogar de volta.
+            uma string pode ser MyString = "OLA : ' "  , Logo os caracteres ":" e "'" , sa£o _
+            importantes na nossa formataaßa£o de texto ,e na£o podemos consideralo na formataaßa£o, _
+            por isso monto um array para posteriormente apa≥s a formataaßa£o pegar as strings e jogar de volta.
             
 On Error GoTo TratarErro
 
@@ -585,9 +585,9 @@ On Error GoTo TratarErro
     While (i <= LenMax)
         i = i + 1
         c = VBA.Mid$(texto, i, 1)
-        'Verifica se √© um caracter Aspas Dupla "
+        'Verifica se a© um caracter Aspas Dupla "
         If c = VBA.Chr(34) Then
-            'Percorre as proximas letras at√© que a string seja fechada MyString= "abc" <Fim da string
+            'Percorre as proximas letras ata© que a string seja fechada MyString= "abc" <Fim da string
             For y = i + 1 To VBA.Len(texto)
                 If VBA.Mid$(texto, y, 1) = VBA.Chr(34) Then
                     If VBA.Mid$(texto, y + 1, 1) = VBA.Chr(34) Then
@@ -761,7 +761,7 @@ End Sub
 ' Autor.....: RONAN VICO
 ' Contato...: RONANVICO@hotmail.com
 ' Data......: 30/04/2019
-' Descri√ß√£o.: Deixa a sele√ß√£o do texto para mai√∫scula
+' Descriaßa£o.: Deixa a seleaßa£o do texto para maia∫scula
 '---------------------------------------------------------------------------------------
 Public Function toUpperCase()
  On Error GoTo TratarErro
@@ -867,13 +867,13 @@ End Function
 
 '---------------------------------------------------------------------------------------
 ' Modulo....: cTOOLS \ CodeModule
-' Rotina....: Public Function PegarSele√ß√£o() As String
+' Rotina....: Public Function PegarSelecao() As String
 ' Autor.....: RONAN VICO
 ' Contato...: RONANVICO@hotmail.com
 ' Data......: 21/05/2019
-' Descri√ß√£o.: Pega o texto selecionado no codemodule e joga numa string
+' Descriaßa£o.: Pega o texto selecionado no codemodule e joga numa string
 '---------------------------------------------------------------------------------------
-Public Function PegarSele√ß√£o() As String
+Public Function PegarSelecao() As String
 On Error GoTo TError
 Dim sL&, sC&, eL&, eC&, i&
 Dim S, lineText$, newText$
@@ -898,11 +898,11 @@ Call Application.VBE.ActiveCodePane.GetSelection(sL, sC, eL, eC)
     Next i
     newText = VBA.Left$(newText, VBA.Len(newText) - 1)
  End If
- PegarSele√ß√£o = newText
+ PegarSelecao = newText
 Fim:
      Exit Function
 TError:
-    ' Call MOSTRAR_ERRO(Err.Number, Err.Description, "PegarSele√ß√£o()")
+    ' Call MOSTRAR_ERRO(Err.Number, Err.Description, "PegarSelecao()")
      GoTo Fim
 End Function
 
@@ -912,11 +912,11 @@ End Function
 ' Autor.....: RONAN VICO
 ' Contato...: RONANVICO@hotmail.com
 ' Data......: 21/05/2019
-' Descri√ß√£o.: Joga o texto selecionado no registro dos settings do vba para depois colar
+' Descriaßa£o.: Joga o texto selecionado no registro dos settings do vba para depois colar
 '---------------------------------------------------------------------------------------
 Public Sub Copiar(ByVal NumeroDaAreaDeTransferencia As Long)
 On Error GoTo TError
-    Call VBA.SaveSetting(C_APPNAME, C_SECTION_COPIAR, NumeroDaAreaDeTransferencia, PegarSele√ß√£o())
+    Call VBA.SaveSetting(C_APPNAME, C_SECTION_COPIAR, NumeroDaAreaDeTransferencia, PegarSelecao())
 Fim:
      Exit Sub
      Resume
@@ -930,7 +930,7 @@ End Sub
 ' Autor.....: RONAN VICO
 ' Contato...: RONANVICO@hotmail.com
 ' Data......: 21/05/2019
-' Descri√ß√£o.: Joga o texto na onde o cursor estiver selecionado
+' Descriaßa£o.: Joga o texto na onde o cursor estiver selecionado
 '---------------------------------------------------------------------------------------
 Public Sub Colar(ByVal NumeroDaAreaDeTransferencia As Long)
 On Error GoTo TError
@@ -987,11 +987,11 @@ End Sub
 ' Autor.....: RONAN VICO
 ' Contato...: RONANVICO@hotmail.com
 ' Data......: 21/05/2019
-' Descri√ß√£o.: 'Retira todos os colars da memoria
+' Descriaßa£o.: 'Retira todos os colars da memoria
 '---------------------------------------------------------------------------------------
 Public Sub LimparColar()
 On Error GoTo TError
-    If MsgBox("Deseja mesmo Limpar todos os ""Colar""?", vbYesNo + vbExclamation, "Aten√ß√£o") = vbNo Then Exit Sub
+    If MsgBox("Deseja mesmo Limpar todos os ""Colar""?", vbYesNo + vbExclamation, "AtenÁ„o") = vbNo Then Exit Sub
     Dim i&
     
     For i = 1 To 10
@@ -1134,7 +1134,7 @@ On Error GoTo TError
     Dim LinhaSemComentario As String
     Dim ArrVars
     Dim ArrVarsPlus
-    Dim LinhaDeDeclara√ß√µes
+    Dim LinhaDeDeclaraaßaµes
     Dim VarDeclaration
     Dim strRegexPatter      As String
     Dim DicVariaveis As New Scripting.Dictionary
@@ -1158,8 +1158,8 @@ On Error GoTo TError
                 If VBA.Left(AntComment, 4) = "Dim " Then AntComment = " " & AntComment
                 'Stop
                 ArrVars = VBA.Split(AntComment, " Dim ")
-                LinhaDeDeclara√ß√µes = ArrVars(1)
-                ArrVars = VBA.Split(LinhaDeDeclara√ß√µes, ",")
+                LinhaDeDeclaraaßaµes = ArrVars(1)
+                ArrVars = VBA.Split(LinhaDeDeclaraaßaµes, ",")
                 For Each VarDeclaration In ArrVars
                     VarDeclaration = VBA.Split(VBA.Split(VarDeclaration, " As ")(0), "(")(0)
                     VarDeclaration = VBA.Replace(VBA.Replace(VarDeclaration, " ", ""), vbTab, "")
@@ -1190,7 +1190,7 @@ On Error GoTo TError
     
     For Each VariaveisNaoUsadas In DicVariaveis
         If DicVariaveis(VariaveisNaoUsadas) = False And VariaveisNaoUsadas <> "" Then
-            Debug.Print "Variavel N√£o Usada: " & VariaveisNaoUsadas
+            Debug.Print "Variavel Na£o Usada: " & VariaveisNaoUsadas
             contVarsNaoUsadas = contVarsNaoUsadas + 1
         Else
             'Debug.Print "Variavel Usada: " & VariaveisNaoUsadas
@@ -1198,7 +1198,7 @@ On Error GoTo TError
     Next
     
     If contVarsNaoUsadas = 0 Then
-        Debug.Print "Todas as variaveis est√£o sendo utilizadas , Parab√©ns mano!"
+        Debug.Print "Todas as variaveis esta£o sendo utilizadas , Paraba©ns mano!"
     End If
     'Stop
     
@@ -1216,9 +1216,9 @@ End Sub
 Public Function formataTexto2(ByVal TextoOriginal As String, Optional ByRef MyArrVar) As String
 'Transforma todas as strings em Variaveis dentro de um array , assim podemos manipular _
             todo o texto sem medo de estar mechendo com dados dentro de string , por exemplo _
-            uma string pode ser MyString = "OLA : ' "  , Logo os caracteres ":" e "'" , s√£o _
-            importantes na nossa formata√ß√£o de texto ,e n√£o podemos consideralo na formata√ß√£o, _
-            por isso monto um array para posteriormente ap√≥s a formata√ß√£o pegar as strings e jogar de volta.
+            uma string pode ser MyString = "OLA : ' "  , Logo os caracteres ":" e "'" , sa£o _
+            importantes na nossa formataaßa£o de texto ,e na£o podemos consideralo na formataaßa£o, _
+            por isso monto um array para posteriormente apa≥s a formataaßa£o pegar as strings e jogar de volta.
 
  On Error GoTo TratarErro
 
@@ -1240,9 +1240,9 @@ Dim ValorVariavel       As String
      While (i <= LenMax)
          i = i + 1
          c = VBA.Mid$(texto, i, 1)
-         'Verifica se √© um caracter Aspas Dupla ""
+         'Verifica se a© um caracter Aspas Dupla ""
          If c = VBA.Chr(34) Then
-             'Percorre as proximas letras at√© que a string seja fechada MyString= "abc" <Fim da string
+             'Percorre as proximas letras ata© que a string seja fechada MyString= "abc" <Fim da string
              For y = i + 1 To VBA.Len(texto)
                  If VBA.Mid$(texto, y, 1) = VBA.Chr(34) Then
                      If VBA.Mid$(texto, y + 1, 1) = VBA.Chr(34) Then
@@ -1353,7 +1353,7 @@ End Sub
 Public Sub Atualizar_RVTool()
 
     If ThisWorkbook.VBProject.Protection = vbext_pp_locked Then
-        MsgBox "Desproteja o VBE do RVTool!", vbExclamation, "ATEN√á√ÉO!"
+        MsgBox "Desproteja o VBE do RVTool!", vbExclamation, "ATENaáaÉO!"
         Exit Sub
     End If
     
@@ -1373,7 +1373,7 @@ On Error GoTo TError
     Const URL_PROJETO = "https://github.com/RonanVico/RVTool/archive/master.zip"
     
     
-    Folder = ThisWorkbook.Path & "\RVTool" & VBA.Format(VBA.Now(), "ddmmyyyyhhmmss") & "new"
+    Folder = ThisWorkbook.path & "\RVTool" & VBA.Format(VBA.Now(), "ddmmyyyyhhmmss") & "new"
     Call VBA.FileSystem.MkDir(Folder)
     Call URLDownloadToFile(0, URL_PROJETO, Folder & ".zip", 0, 0)
     File = Folder & ".zip\RVTool-master"
@@ -1394,7 +1394,7 @@ On Error GoTo TError
                     Exit For
                 End If
             Next vbCOMP
-            Call vbproj.VBComponents.Import(fl.Path)
+            Call vbproj.VBComponents.Import(fl.path)
         End If
     Next fl
 
@@ -1558,11 +1558,11 @@ Dim novaLInha        As String
 Dim tamanhoSnippet As Long
 Dim auxParam1
 
-    'Pega a localiza√ß√£o do cursor no c√≥digo
+    'Pega a localizaaßa£o do cursor no ca≥digo
     Call Application.VBE.ActiveCodePane.GetSelection(sL, sC, eL, eC)
-    'PEga a linha inteira at√© a primeira posi√ß√£o do cursor do teclado
+    'PEga a linha inteira ata© a primeira posiaßa£o do cursor do teclado
     Linha = VBA.Replace(VBA.Trim(VBA.Mid(Application.VBE.ActiveCodePane.CodeModule.Lines(sL, 1), 1, eC - 1)), " (", "(")
-    'Retira os tabs por precau√ß√£o
+    'Retira os tabs por precauaßa£o
     Linha = VBA.Replace(Linha, vbTab, " ")
     If VBA.InStr(Linha, " ") <> 0 Then
         TextoVerificar = VBA.Mid(Linha, VBA.InStrRev(Linha, " ") + 1)
