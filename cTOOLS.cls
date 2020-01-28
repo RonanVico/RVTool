@@ -20,7 +20,6 @@ Option Explicit
 '
 ' Códigos utilizados como ajuda e fornecedores
 ' 1- GetProcedureDeclaration  e ProcedureInfo - Made By CPearson
-' 2- IsLinhaMatch - made By TECNUN - www.tecnun.com.br
 '----------------------------------------------------------------------------------------------------------------------------
 #If VBA7 Then
     Private Declare PtrSafe Function URLDownloadToFile Lib "urlmon" Alias "URLDownloadToFileA" (ByVal pCaller As LongPtr, ByVal szURL As String, ByVal szFileName As String, ByVal dwReserved As LongPtr, ByVal lpfnCB As LongPtr) As Long
@@ -1374,7 +1373,7 @@ On Error GoTo TError
     Const URL_PROJETO = "https://github.com/RonanVico/RVTools/archive/master.zip"
     
     
-    Folder = ThisWorkbook.Path & "\RvTools" & VBA.Format(VBA.Now() & "new", "ddmmyyyyhhmmss")
+    Folder = ThisWorkbook.Path & "\RvTools" & VBA.Format(VBA.Now(), "ddmmyyyyhhmmss") & "new"
     Call VBA.FileSystem.MkDir(Folder)
     Call URLDownloadToFile(0, URL_PROJETO, Folder & ".zip", 0, 0)
     File = Folder & ".zip\RVTools-master"
