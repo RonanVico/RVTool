@@ -3,9 +3,9 @@ Option Explicit
 'VERSaO  1.01.0
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 'Feito Por: Ronan Vico
-'Descricao: Este módulo possui Rotinas para criacao do botao na Barra de Comandos do VBE (Visual Basic Editor)
-'           é necessario toda vez que iniciar a aplicacao instanciar a barra novamente ,pois ela funciona com eventos
-'           Também é possivel rodar manualmente a rotina InitVBRVTool.
+'Descricao: Este mÃ³dulo possui Rotinas para criacao do botao na Barra de Comandos do VBE (Visual Basic Editor)
+'           Ã© necessario toda vez que iniciar a aplicacao instanciar a barra novamente ,pois ela funciona com eventos
+'           TambÃ©m Ã© possivel rodar manualmente a rotina InitVBRVTool.
 'Como usar?: Apenas rode InitVBRVTool e ela instanciara a barra de comando.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Private MenuEvent As CVBECommandHandler
@@ -80,8 +80,8 @@ Dim FaceID                             As Long
     
     Call AddMenuButton("Inserir &Cabecalho", True, "InserirCabecalhoNaProc", 12, cpop)
     Call AddMenuButton("Inserir &Error Treatment", False, "inserirTratamentoDeErro", 464, cpop)
-    Call AddMenuButton("Inserir &Númeracao nas Linhas", True, "inserirNumeracaoDeLinha", 9680, cpop)
-    Call AddMenuButton("Remover &Númeracao nas Linhas", False, "RetirarNumeraCaoDeLinhas", 4171, cpop) '66
+    Call AddMenuButton("Inserir &NÃºmeracao nas Linhas", True, "inserirNumeracaoDeLinha", 9680, cpop)
+    Call AddMenuButton("Remover &NÃºmeracao nas Linhas", False, "RetirarNumeraCaoDeLinhas", 4171, cpop) '66
     Call AddMenuButton("Identar &Variaveis", True, "IdentaVariaveis", 123, cpop)
     '--------------------------------------------
     With cbBarTOOL
@@ -113,7 +113,7 @@ Dim FaceID                             As Long
             .TooltipText = "Colar"
         End With
 
-        'Copiar e colar sendo criados os botões do menu
+        'Copiar e colar sendo criados os botÃµes do menu
         For i = 1 To 10 ', 6766,6735
             settingColar = VBA.GetSetting(C_APPNAME, C_SECTION_COPIAR, i)
             Call AddMenuButton("Copiar para area " & i, False, "Copiar", IIf(settingColar = "", 1132, 7992), cpopCopiar, i)
@@ -136,7 +136,7 @@ Dim FaceID                             As Long
     End With
     
     Call AddMenuButton("Imprimir TUDO", False, "GetFunctionAndSubNames", 2045, cpop)
-    Call AddMenuButton("Imprimir Módulo Atual", False, "GetFunctionAndSubNameAtual", 2046, cpop)
+    Call AddMenuButton("Imprimir MÃ³dulo Atual", False, "GetFunctionAndSubNameAtual", 2046, cpop)
     '----------------------------------------------------------------
     Call AddMenuButton("Fecha&r Project Explorer", True, "FecharProjectExplorer", 2477)
     Call AddMenuButton("Fechar All VBE &Windows", False, "FecharTodasJanelas", 2477)
@@ -156,7 +156,7 @@ Dim FaceID                             As Long
     '-----------------------------------------------------------------
     Call AddMenuButton("About Creator", True, "aboutme", 59) '66
     '--
-    'Call AddMenuButton("DEV", True, "dev", 1556) '66
+'Call AddMenuButton("Identar &Procedure", True, "IdentarProcedure", 1556) '66
     
     
 End Sub
