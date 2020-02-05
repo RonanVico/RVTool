@@ -156,7 +156,7 @@ Dim FaceID                             As Long
     '-----------------------------------------------------------------
     Call AddMenuButton("About Creator", True, "aboutme", 59) '66
     '--
-'Call AddMenuButton("Identar &Procedure", True, "IdentarProcedure", 1556) '66
+     Call AddMenuButton("Identar &Procedure", True, "IdentarProcedure", 1556) '66
     
     
 End Sub
