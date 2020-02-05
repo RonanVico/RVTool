@@ -1679,8 +1679,8 @@ End Sub
 
 
 
---FEITO POR RONAN VICO 04/02/2020
--- NA LIVE DO GUIA DO EXCEL
+'--FEITO POR RONAN VICO 04/02/2020
+'-- NA LIVE DO GUIA DO EXCEL
 Public Sub IdentarProcedure()
 On Error GoTo TError
 If ActiveProcedure = "" Then Exit Sub
