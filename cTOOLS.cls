@@ -1676,3 +1676,147 @@ Sub Unzip1()
     End If
 End Sub
 
+
+
+
+--FEITO POR RONAN VICO 04/02/2020
+-- NA LIVE DO GUIA DO EXCEL
+Public Sub IdentarProcedure()
+On Error GoTo TError
+If ActiveProcedure = "" Then Exit Sub
+Dim DicOpenIdentWords  As New Scripting.Dictionary
+Dim arrWords           As Variant
+Dim contWord           As Long
+Dim lin                As Long
+Dim arrLinhas          As Variant
+Dim strLinha           As String
+Dim key
+Dim actProc            As String
+Dim bSomarTAB          As Boolean
+Dim bSubtrairTAB       As Boolean
+Dim contQuantidadeIdentar   As Long
+'
+Dim vbProj             As VBIDE.VBProject
+Dim vbCodeModule       As VBIDE.CodeModule
+'
+Dim NEW_CODE_TEXT      As String
+
+Set vbCodeModule = Application.VBE.ActiveCodePane.CodeModule
+actProc = ActiveProcedure
+
+Const caracterDeIdentacao  As String = PARAM_CHAR_IDENTAÇÃO
+
+    contQuantidadeIdentar = 0
+    With DicOpenIdentWords
+        .Add "Do |Do$", "(Loop)"
+        .Add "For ", "(Next)"
+        .Add "If .*Then$", "(Else$|ElseIf .*&Then$|End If$)"
+        .Add "ElseIf ", "(Else$|ElseIf .*&Then$|End If$)"
+        .Add "Else$", "(End If)"
+        .Add "While ", "(Wend)"
+        .Add "Select Case", "(End Select)"
+        .Add "Case ", "(Case |End Select)"
+        .Add "With ", "(End With$)"
+        .Add "Public |Private |Friend ", "(End Sub|End Function|End Property)"
+        .Add "Sub |Function |Property ", "(End Sub|End Function|End Property)"
+    End With
+    
+    Dim TEXTO_DA_PROC As String
+    Dim arrVars
+    TEXTO_DA_PROC = formataTexto2(PegarProcedureSemQuebraDeLinha(ActiveProcedure()), arrVars)
+    TEXTO_DA_PROC = VBA.Replace(PegarProcedureSemQuebraDeLinha(ActiveProcedure()), QUEBRA_DE_LINHA, "_" & vbCrLf)
+    arrLinhas = VBA.Split(TEXTO_DA_PROC, vbCrLf)
+    
+    
+    'Joga tudo para a esquerda para começar identar
+    For lin = LBound(arrLinhas, 1) To UBound(arrLinhas, 1)
+        'Problema com numeração de linhas
+        strLinha = VBA.LTrim(arrLinhas(lin))
+        If VBA.IsNumeric(VBA.Left(strLinha, 1)) Then
+            strLinha = VBA.Mid(strLinha, VBA.InStr(strLinha, " "))
+        End If
+        arrLinhas(lin) = strLinha
+    Next lin
+    
+
+    
+    For lin = LBound(arrLinhas, 1) To UBound(arrLinhas, 1)
+        'devido a numeração de linhas
+        strLinha = VBA.RTrim(VBA.Split(IIf(arrLinhas(lin) = vbNullString, " ", arrLinhas(lin)), "'")(0))
+        If VBA.IsNumeric(VBA.Left(strLinha, 1)) Then
+            strLinha = VBA.Mid(strLinha, VBA.InStr(strLinha, " "))
+        End If
+        strLinha = IIf(strLinha = vbNullString, " ", strLinha)
+        strLinha = IIf(VBA.Right$(strLinha, 1) = "_", VBA.Mid(strLinha, 1, VBA.Len(strLinha) - 1), strLinha)
+
+        
+        bSubtrairTAB = False
+        bSomarTAB = False
+        
+        If VBA.IsArray(arrWords) Then
+            'Verifica a Linha para Subtrair
+            If IsLinhaMatch(strLinha, DicOpenIdentWords(arrWords(UBound(arrWords)))) Then
+                bSubtrairTAB = True
+                'Clausula especial para Select  Case , pois identação é diferente
+                If arrWords(UBound(arrWords)) = "Case " And IsLinhaMatch(strLinha, "^(End Select)") Then
+                     contQuantidadeIdentar = contQuantidadeIdentar - 1
+                     'Pop the Stack
+                    If UBound(arrWords) = 0 Then Set arrWords = Nothing Else ReDim Preserve arrWords(0 To UBound(arrWords) - 1)
+                End If
+                'Pop the Stack
+                If UBound(arrWords) = 0 Then Set arrWords = Nothing Else ReDim Preserve arrWords(0 To UBound(arrWords) - 1)
+            End If
+        End If
+        For Each key In DicOpenIdentWords
+            'verifica linha para somar
+            If IsLinhaMatch(strLinha, "^(" & key & ")") And Not IsLinhaMatch(strLinha, DicOpenIdentWords(key)) Then
+                bSomarTAB = True
+                'Push the Stack
+                If VBA.IsArray(arrWords) Then
+                    ReDim Preserve arrWords(0 To UBound(arrWords) + 1)
+                Else
+                    arrWords = VBA.Split("", "")
+                End If
+                
+                arrWords(UBound(arrWords)) = key
+                Exit For
+            End If
+            
+        Next key
+        
+        If bSubtrairTAB Then contQuantidadeIdentar = contQuantidadeIdentar - 1
+        
+        strLinha = arrLinhas(lin)
+        If VBA.IsNumeric(VBA.Left(strLinha, 1)) Then
+            strLinha = VBA.Mid(strLinha, 1, VBA.InStr(strLinha, " ") - 1) & VBA.Strings.String(contQuantidadeIdentar, caracterDeIdentacao) & VBA.Mid(strLinha, VBA.InStr(strLinha, " "))
+        Else
+            arrLinhas(lin) = VBA.Strings.String(contQuantidadeIdentar, caracterDeIdentacao) & strLinha
+        End If
+        If bSomarTAB Then contQuantidadeIdentar = contQuantidadeIdentar + 1
+    Next lin
+    
+    
+    While arrLinhas(UBound(arrLinhas)) = vbNullString
+        ReDim Preserve arrLinhas(0 To UBound(arrLinhas) - 1)
+    Wend
+    
+    NEW_CODE_TEXT = VBA.Join(arrLinhas, vbCrLf)
+    
+    With pInfo
+        Call vbCodeModule.DeleteLines(.ProcBodyLine, .ProcCountLines - (.ProcBodyLine - .ProcStartLine))
+        Call vbCodeModule.InsertLines(.ProcBodyLine, NEW_CODE_TEXT)
+    End With
+    
+    Call IdentaVariaveis(actProc)
+    
+Fim:
+     Exit Sub
+TError:
+     'Call MOSTRAR_ERRO(Err.Number, Err.Description, "dev()")
+     Stop
+     Resume
+     GoTo Fim
+End Sub
+                                
+                                
+                                
