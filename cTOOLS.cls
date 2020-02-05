@@ -1704,7 +1704,7 @@ Dim NEW_CODE_TEXT      As String
 Set vbCodeModule = Application.VBE.ActiveCodePane.CodeModule
 actProc = ActiveProcedure
 
-Const caracterDeIdentacao  As String = PARAM_CHAR_IDENTAÇÃO
+Const caracterDeIdentacao  As String = PARAM_CHAR_IDENTACAO
 
     contQuantidadeIdentar = 0
     With DicOpenIdentWords
