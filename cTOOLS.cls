@@ -9,7 +9,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 'Teste ASD
-'VERSaƒO  1.01.5
+'VERSaƒO  1.01.6
 
 '*MANUTENa‡a•ES / MELHORIAS*
 'Criado por: Ronan Raphael Vico // ronanvico@hotmail.com // https://br.linkedin.com/in/ronan-vico
