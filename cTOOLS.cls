@@ -9,9 +9,9 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 'Teste ASD
-'VERSaÆ’O  1.01.6
+'VERSaÃ†â€™O  1.02.0
 
-'*MANUTENaâ€¡aâ€¢ES / MELHORIAS*
+'*MANUTENaÃ¢â‚¬Â¡aÃ¢â‚¬Â¢ES / MELHORIAS*
 'Criado por: Ronan Raphael Vico // ronanvico@hotmail.com // https://br.linkedin.com/in/ronan-vico
 '   Descricao:Modulo utilizado para programar o IDE VBE, facilitando criacao de rotinas e manutencao de codigos.
 '       as rotinas serao utilizadas em botoes programaveis na barra de comandos do VBE dentro do EXCEL
@@ -57,7 +57,7 @@ Private pInfo           As ProcInfo
        
         
 '-------- PARAMETROS
-'-------- ABAIXO ESTaÆ’O OS PARAMETROS UTILIZADOS PARA PROGRAMAaâ€¡aÆ’O
+'-------- ABAIXO ESTaÃ†â€™O OS PARAMETROS UTILIZADOS PARA PROGRAMAaÃ¢â‚¬Â¡aÃ†â€™O
 Private Const QUEBRA_DE_LINHA                As String = "_VBNEWLINE!"
 Private Const tagVarInit                     As String = "[V@_"
 Private Const tagVarEnd                      As String = "@]"
@@ -137,7 +137,7 @@ Public Sub InsertErrorTreatment() 'Inserir Tratamento de Erro
     Dim sSplit
     Dim linQuebrada     As Long
     On Error GoTo t
-    'Verifica se estaÂ¡ numa procedure
+    'Verifica se estaÃ‚Â¡ numa procedure
     'If not is in a procedure then exit sub
     If ActiveProcedure = "" Then Exit Sub
  
@@ -196,7 +196,7 @@ Public Sub InsertProcedureHeader()
     Dim slinha          As String
     Dim sSplit
     On Error GoTo t
-    'Verifica se estaÂ¡ numa procedure
+    'Verifica se estaÃ‚Â¡ numa procedure
     'Check if is in a procedure
     If ActiveProcedure = "" Then Exit Sub
     'ebug.Print ActiveProcedure
@@ -441,7 +441,7 @@ End Sub
 
  
 
-'Remove Númeração de Linha
+'Remove NÃºmeraÃ§Ã£o de Linha
 Public Sub RemoveLineNumber()
     Call ProcedureInfo(ActiveProcedure, Application.VBE.ActiveCodePane.CodeModule, pInfo.procKind)
     Call RemoveLineNumberProc(ActiveProcedure)
@@ -505,9 +505,9 @@ Public Function GetProcedureTextWithoutBreakLines(ProcedureName As String) As St
                e posteriormente plotar de volta as qebras de llinhas no seus devidos lugares !
  
 '#EN If there is _ at the end of the code line, it means that the next line belongs to the same VBA command _
-               Example this comment, the bottom line is commented due to that Underline located / \ here _
-               Soon, we will transform everything into "1 line" to be able to run text formatting functions _
-               and then plot back the lines of lines in their proper places!
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Example this comment, the bottom line is commented due to that Underline located / \ here _
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â Soon, we will transform everything into "1 line" to be able to run text formatting functions _
+Â Â Â Â Â Â Â Â Â Â Â Â Â Â Â and then plot back the lines of lines in their proper places!
  
  Dim proc                As ProcInfo
  Dim textAntComment      As String
@@ -544,10 +544,10 @@ Public Function formataTexto(ByVal TextoOriginal As String, Optional ByRef MyArr
             por isso monto um array para posteriormente apos a formatacao pegar as strings e jogar de volta.
 
     '#EN Transform all strings into Variables within an array, so we can manipulate _
-                all the text without fear of being messing with data inside a string, for example _
-                a string can be MyString = "OLA: '", So the characters ":" and "'", are _
-                important in our text formatting, and we cannot consider it in formatting, _
-                so I set up an array for later, after formatting, take the strings and play them back.
+    Â Â Â Â Â Â Â Â Â Â Â Â all the text without fear of being messing with data inside a string, for example _
+    Â Â Â Â Â Â Â Â Â Â Â Â a string can be MyString = "OLA: '", So the characters ":" and "'", are _
+    Â Â Â Â Â Â Â Â Â Â Â Â important in our text formatting, and we cannot consider it in formatting, _
+    Â Â Â Â Â Â Â Â Â Â Â Â so I set up an array for later, after formatting, take the strings and play them back.
 On Error GoTo TratarErro
 
 Dim arrVars()                          As Variant
@@ -1161,10 +1161,10 @@ Public Function formataTexto2(ByVal TextoOriginal As String, Optional ByRef MyAr
             por isso monto um array para posteriormente apos a formatacao pegar as strings e jogar de volta.
 
 '#EN Transform all strings into Variables within an array, so we can manipulate _
-            all the text without fear of being messing with data inside a string, for example _
-            a string can be MyString = "OLA: '", So the characters ":" and "'", are _
-            important in our text formatting, and we cannot consider it in formatting, _
-            so I set up an array for later, after formatting, take the strings and play them back.
+Â Â Â Â Â Â Â Â Â Â Â Â all the text without fear of being messing with data inside a string, for example _
+Â Â Â Â Â Â Â Â Â Â Â Â a string can be MyString = "OLA: '", So the characters ":" and "'", are _
+Â Â Â Â Â Â Â Â Â Â Â Â important in our text formatting, and we cannot consider it in formatting, _
+Â Â Â Â Â Â Â Â Â Â Â Â so I set up an array for later, after formatting, take the strings and play them back.
  On Error GoTo TratarErro
 
 Dim arrVars()           As Variant: Dim contVar            As Long: Dim i                  As Long:
@@ -1268,7 +1268,7 @@ Public Sub Atualizar_RVTool()
 
     If ThisWorkbook.VBProject.Protection = vbext_pp_locked Then
 #If PT_BR Then
-     MsgBox "Desproteja o VBE do RVTool!", vbExclamation, "ATENaâ€¡aÆ’O!"
+     MsgBox "Desproteja o VBE do RVTool!", vbExclamation, "ATENaÃ¢â‚¬Â¡aÃ†â€™O!"
 #Else
     MsgBox "Unlock the VB Project in RVTool!", vbExclamation, "Atention!"
 #End If
@@ -1561,7 +1561,7 @@ Dim arrVars                            As Variant
     arrLinhas = VBA.Split(TEXTO_DA_PROC, vbCrLf)
 
 
-    'Joga tudo para a esquerda para comeÃ§ar Indentar
+    'Joga tudo para a esquerda para comeÃƒÂ§ar Indentar
     For lin = LBound(arrLinhas, 1) To UBound(arrLinhas, 1)
         'Problema com numeracao de linhas
         strLinha = VBA.LTrim(arrLinhas(lin))
