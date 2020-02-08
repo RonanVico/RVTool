@@ -27,7 +27,7 @@ Private Sub EvtHandler_Click(ByVal CommandBarControl As Object, _
     'Application.Run CommandBarControl.OnACtion
     Dim tool As New cTOOLS
     
-    If VBA.Left(VBA.LCase(CommandBarControl.CAption), 6) = "copiar" Or VBA.Left(VBA.LCase(CommandBarControl.TooltipText), 5) = "colar" Then
+    If CommandBarControl.ToolTipText = "CopyOrPaste" Then
         Call CallByName(tool, CommandBarControl.OnACtion, VbMethod, CommandBarControl.DescriptionText)
     Else
         Call CallByName(tool, CommandBarControl.OnACtion, VbMethod)

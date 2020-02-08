@@ -1,11 +1,12 @@
 Attribute VB_Name = "modCreateVBEMenuItems"
 Option Explicit
+
 'VERSaO  1.01.0
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 'Feito Por: Ronan Vico
-'Descricao: Este módulo possui Rotinas para criacao do botao na Barra de Comandos do VBE (Visual Basic Editor)
-'           é necessario toda vez que iniciar a aplicacao instanciar a barra novamente ,pois ela funciona com eventos
-'           Também é possivel rodar manualmente a rotina InitVBRVTool.
+'Descricao: Este modulo possui Rotinas para criacao do botao na Barra de Comandos do VBE (Visual Basic Editor)
+'           e necessario toda vez que iniciar a aplicacao instanciar a barra novamente ,pois ela funciona com eventos
+'           Tambem e possivel rodar manualmente a rotina InitVBRVTool.
 'Como usar?: Apenas rode InitVBRVTool e ela instanciara a barra de comando.
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 Private MenuEvent As CVBECommandHandler
@@ -18,8 +19,8 @@ Private cmbar As Office.CommandBar
 Private Const C_TAG = "MY_VBE_TAG"
 Private Const C_RV_TOOLS_BAR As String = "RV"
 Public Const C_APPNAME As String = "RVTool"
-Public Const C_SECTION_COPIAR As String = "COPIAR"
-Public Const C_SECTION_COLAR As String = "COPIAR"
+Public Const C_SECTION_CopyText As String = "CopyText"
+Public Const C_SECTION_PasteText As String = "CopyText"
 
 
 
@@ -32,11 +33,12 @@ End Enum
 
 Sub InitVBRVTool()
 Dim cpop                               As CommandBarPopup
-Dim cpopColar                          As CommandBarPopup
-Dim cpopCopiar                         As CommandBarPopup
+Dim cpopPasteText                      As CommandBarPopup
+Dim cpopCopyText                       As CommandBarPopup
 Dim i                                  As Long
-Dim settingColar                       As String
+Dim settingPasteText                   As String
 Dim FaceID                             As Long
+Dim DicButtons                         As New Scripting.Dictionary
 
 
     Call DeleteMenuItems
@@ -67,22 +69,106 @@ Dim FaceID                             As Long
         End With
     End If
 
+
+
+
+    With DicButtons
+    
+If PT_BR() Then
+        .Add "Snippets", "Auto Completar Code Snippe&t"
+        '--
+        .Add "Inserir/Editar", "&Inserir e Editar"
+        .Add "InsertProcedureHeader", "Inserir &Cabecalho"
+        .Add "insertErrorTreatment", "Inserir &Error Treatment"
+        .Add "InsertLineNumber", "Inserir &Numeracao nas Linhas"
+        .Add "RemoveLineNumber", "&Remover Numeracao nas Linhas"
+        .Add "IndentVariables", "&Identar Variaveis"
+        '--
+        .Add "AuxText", "Aux Textos"
+        .Add "toUpperCase", "Texto Selecionado para &Maiusculo aA"
+        .Add "toLowerCase", "Texto Selecionado para Mi&nusculo Aa"
+        
+        
+        .Add "CopyText", "Copiar_&C"
+        .Add "PasteText", "Colar_&V"
+        .Add "CopyTextDesc", "Copiar texto para area "
+        .Add "CleanPasteText", "Limpar Tudo"
+        '--
+        .Add "CheckVariablesNotUsedInProcedure", "Verificar Variaveis nao Utilizadas"
+        '--
+        .Add "Listar", "Listar Procedures"
+        .Add "GetFunctionAndSubNames", "Imprimir TUDO"
+        .Add "GetFunctionAndSubNameAtual", "Imprimir Modulo Atual"
+        .Add "CloseProjectExplorer", "Fecha&r Project Explorer"
+        .Add "CloseAllWindowsCodeModule", "Fechar All VBE &Windows"
+        .Add "Hook", "Desbloquear All VBE's"
+        '--
+        .Add "CoresEditor", "&Alterar Cores Editor"
+        .Add "Change_color_Dark_Theme", "DARK THEME"
+        .Add "Change_color_White_Theme", "WHITE THEME DEFAULT"
+        '--
+        .Add "Atualizar_RVTool", "Update RVTOOL"
+        '--
+        .Add "aboutme", "About Creator"
+        '--
+        .Add "IndentarProcedure", "Indentar &Procedure"
+        .Add "Change_Region", "Change Tool Lenguage to English"
+Else
+        .Add "Snippets", "Auto Complete Code Snippe&t"
+        '--
+        .Add "Inserir/Editar", "Edit / &Insert"
+        .Add "InsertProcedureHeader", "Insert &Header"
+        .Add "InsertLineNumber", "Insert &Error Treatment"
+        .Add "RemoveLineNumber", "Insert Line &Number"
+        .Add "IndentVariables", "&Ident Variables"
+        '--
+        .Add "AuxText", "Aux Texts"
+        .Add "toUpperCase", "Selected Text TO UPPER CASE aA"
+        .Add "toLowerCase", "Selected Text TO LOWER CASE aA"
+        
+        
+        .Add "CopyText", "&Copy"
+        .Add "PasteText", "&Paste"
+        .Add "CopyTextDesc", "Copy selected Text to &"
+        .Add "CleanPasteText", "Clean All"
+        '--
+        .Add "CheckVariablesNotUsedInProcedure", "Check &Unused Variables"
+        '--
+        .Add "Listar", "Print Procedures"
+        .Add "GetFunctionAndSubNames", "Debug Print &All"
+        .Add "GetFunctionAndSubNameAtual", "Debug Print Active &Module"
+        .Add "CloseProjectExplorer", "Close Project Explo&rer"
+        .Add "CloseAllWindowsCodeModule", "Close All Code &Windows"
+        .Add "Hook", "Unlock All VBE's"
+        '--
+        .Add "CoresEditor", "Change &Editor Colors"
+        .Add "Change_color_Dark_Theme", "DARK THEME"
+        .Add "Change_color_White_Theme", "WHITE THEME DEFAULT"
+        '--
+        .Add "Atualizar_RVTool", "Update RVTOOL"
+        '--
+        .Add "aboutme", "About Creator"
+        '--
+        .Add "IndentarProcedure", "Ident &Procedure"
+        .Add "Change_Region", "Trocar Tool para Portugues"
+End If
+    End With
+    
     Set cbBarTOOL = cmbar.FindControl(tag:=C_RV_TOOLS_BAR)
-    Call AddMenuButton("Complete Code Snippe&t", True, "Snippets", 7581)
+    Call AddMenuButton(DicButtons("Snippets"), True, "Snippets", 7581)
     '-------------------------------------------------------------------------------
     Set cpop = cbBarTOOL.Controls.Add(10)
     With cpop
         .tag = C_TAG
         .BeginGroup = True
-        .CAption = "&Inserir e Editar"
-        .TooltipText = "Listar"
+        .CAption = DicButtons("Inserir/Editar")
+        .ToolTipText = "Listar"
     End With
-    
-    Call AddMenuButton("Inserir &Cabecalho", True, "InserirCabecalhoNaProc", 12, cpop)
-    Call AddMenuButton("Inserir &Error Treatment", False, "inserirTratamentoDeErro", 464, cpop)
-    Call AddMenuButton("Inserir &Númeracao nas Linhas", True, "inserirNumeracaoDeLinha", 9680, cpop)
-    Call AddMenuButton("Remover &Númeracao nas Linhas", False, "RetirarNumeraCaoDeLinhas", 4171, cpop) '66
-    Call AddMenuButton("Identar &Variaveis", True, "IdentaVariaveis", 123, cpop)
+    Call AddMenuButton(DicButtons("InsertProcedureHeader"), True, "InsertProcedureHeader", 12, cpop)
+    Call AddMenuButton(DicButtons("insertErrorTreatment"), False, "insertErrorTreatment", 464, cpop)
+    Call AddMenuButton(DicButtons("InsertLineNumber"), True, "InsertLineNumber", 9680, cpop)
+    Call AddMenuButton(DicButtons("RemoveLineNumber"), False, "RemoveLineNumber", 4171, cpop) '66
+    Call AddMenuButton(DicButtons("IndentVariables"), True, "IndentVariables", 123, cpop)
     '--------------------------------------------
     With cbBarTOOL
         'Strings
@@ -90,76 +176,78 @@ Dim FaceID                             As Long
         With cpop
             .BeginGroup = True
             .tag = C_TAG
-            .CAption = "Aux Textos"
-            .TooltipText = "Textus"
+            .CAption = DicButtons("AuxText")
+            .ToolTipText = "Textus"
         End With
 
-        Call AddMenuButton("Selection TO UPPER CASE aA", False, "toUpperCase", 311, cpop)
-        Call AddMenuButton("Selection TO LOWER CASE Aa", False, "toLowerCase", 310, cpop)
-        
-        'Copiar
-        Set cpopCopiar = .Controls.Add(10)
-        With cpopCopiar
+        Call AddMenuButton(DicButtons("toUpperCase"), False, "toUpperCase", 311, cpop)
+        Call AddMenuButton(DicButtons("toLowerCase"), False, "toLowerCase", 310, cpop)
+
+        'CopyText
+        Set cpopCopyText = .Controls.Add(10)
+        With cpopCopyText
             .tag = C_TAG
-            .CAption = "Copiar"
-            .TooltipText = "Copiar"
+            .CAption = DicButtons("CopyText")
+            .ToolTipText = "CopyText"
         End With
 
-        'Colar
-        Set cpopColar = .Controls.Add(10)
-        With cpopColar
+        'PasteText
+        Set cpopPasteText = .Controls.Add(10)
+        With cpopPasteText
             .tag = C_TAG
-            .CAption = "Colar"
-            .TooltipText = "Colar"
+            .CAption = DicButtons("PasteText")
+            .ToolTipText = "PasteText"
         End With
 
-        'Copiar e colar sendo criados os botões do menu
+        'CopyText e PasteText sendo criados os botões do menu
         For i = 1 To 10 ', 6766,6735
-            settingColar = VBA.GetSetting(C_APPNAME, C_SECTION_COPIAR, i)
-            Call AddMenuButton("Copiar para area " & i, False, "Copiar", IIf(settingColar = "", 1132, 7992), cpopCopiar, i)
-            Call AddMenuButton(IIf(settingColar = "", "Colar " & i, VBA.Left$(settingColar, 50) & IIf(VBA.Len(settingColar) > 49, "...", "")), _
-                                False, "Colar", 1, cpopColar, i, (settingColar <> ""))
+            settingPasteText = VBA.GetSetting(C_APPNAME, C_SECTION_CopyText, i)
+            Call AddMenuButton(DicButtons("CopyTextDesc") & i, False, "CopyText", IIf(settingPasteText = "", 1132, 7992), cpopCopyText, i, , "CopyOrPaste")
+            Call AddMenuButton(IIf(settingPasteText = "", "PasteText " & i, VBA.Left$(settingPasteText, 50) & IIf(VBA.Len(settingPasteText) > 49, "...", "")), _
+                                False, "PasteText", 1, cpopPasteText, i, (settingPasteText <> ""), "CopyOrPaste")
         Next i
 
-        Call AddMenuButton("Limpar Tudo", True, "LimparColar", 450, cpopColar, "limpa todos colars")
+        Call AddMenuButton(DicButtons("CleanPasteText"), True, "CleanPasteText", 450, cpopPasteText, "limpa todos PasteTexts")
     End With
 
 
     '-------------------------------------------
-    Call AddMenuButton("Verificar Variaveis nao Utilizadas", True, "Verifica_Variaveis", 202)
+    Call AddMenuButton(DicButtons("CheckVariablesNotUsedInProcedure"), True, "CheckVariablesNotUsedInProcedure", 202)
     Set cpop = cbBarTOOL.Controls.Add(10)
     With cpop
         .BeginGroup = False
         .tag = C_TAG
-        .CAption = "Listar Procedures"
-        .TooltipText = "Listar"
+        .CAption = DicButtons("Listar")
+        .ToolTipText = "Listar"
     End With
-    
-    Call AddMenuButton("Imprimir TUDO", False, "GetFunctionAndSubNames", 2045, cpop)
-    Call AddMenuButton("Imprimir Módulo Atual", False, "GetFunctionAndSubNameAtual", 2046, cpop)
+
+    Call AddMenuButton(DicButtons("GetFunctionAndSubNames"), False, "GetFunctionAndSubNames", 2045, cpop)
+    Call AddMenuButton(DicButtons("GetFunctionAndSubNameAtual"), False, "GetFunctionAndSubNameAtual", 2046, cpop)
     '----------------------------------------------------------------
-    Call AddMenuButton("Fecha&r Project Explorer", True, "FecharProjectExplorer", 2477)
-    Call AddMenuButton("Fechar All VBE &Windows", False, "FecharTodasJanelas", 2477)
-    Call AddMenuButton("Desbloquear All VBE's", False, "Hook", 650)
+    Call AddMenuButton(DicButtons("CloseProjectExplorer"), True, "CloseProjectExplorer", 2477)
+    Call AddMenuButton(DicButtons("CloseAllWindowsCodeModule"), False, "CloseAllWindowsCodeModule", 2477)
+    Call AddMenuButton(DicButtons("Hook"), False, "Hook", 650)
     '-----------------------------------------------------------------------------
     Set cpop = cbBarTOOL.Controls.Add(10)
     With cpop
         .tag = C_TAG
         .BeginGroup = True
-        .CAption = "&Alterar Cores Editor"
-        .TooltipText = "Listar"
+        .CAption = DicButtons("CoresEditor")
+        .ToolTipText = "CoresEditor"
     End With
-    Call AddMenuButton("DARK THEME", True, "Change_color_Dark_Theme", 9534, cpop)
-    Call AddMenuButton("WHITE THEME DEFAULT", False, "Change_color_White_Theme", 9535, cpop)
+    Call AddMenuButton(DicButtons("Change_color_Dark_Theme"), True, "Change_color_Dark_Theme", 9534, cpop)
+    Call AddMenuButton(DicButtons("Change_color_White_Theme"), False, "Change_color_White_Theme", 9535, cpop)
     '----------------------------------------------------------
-    Call AddMenuButton("Atualizar RV_TOOLS", False, "Atualizar_RVTool", 654)
+    Call AddMenuButton(DicButtons("Atualizar_RVTool"), True, "Atualizar_RVTool", 37) '654
+    '----------------------------------------------------------
+    Call AddMenuButton(DicButtons("IndentarProcedure"), True, "IndentarProcedure", 1556)  '66
+    '----------------------------------------------------------
+    Call AddMenuButton(DicButtons("Change_Region"), True, "Change_Region", 5765) '66
     '-----------------------------------------------------------------
-    Call AddMenuButton("About Creator", True, "aboutme", 59) '66
-    '--
-     Call AddMenuButton("Identar &Procedure", True, "IdentarProcedure", 1556) '66
-    
-    
+    Call AddMenuButton(DicButtons("aboutme"), True, "aboutme", 59) '66
+
 End Sub
+
 
 Sub AddMenuButton(ByVal CAption As String, _
                     BeginGroup As Boolean, _
@@ -167,7 +255,8 @@ Sub AddMenuButton(ByVal CAption As String, _
                     FaceID As Long, _
                     Optional ByVal cbar As Object = Nothing, _
                     Optional ByVal DescriptionText As String = "", _
-                    Optional Enabled As Boolean = True)
+                    Optional Enabled As Boolean = True, _
+                    Optional ToolTipText As String)
                     
                     
                     
@@ -181,10 +270,8 @@ Sub AddMenuButton(ByVal CAption As String, _
             .FaceID = FaceID
             .CAption = CAption
             .BeginGroup = BeginGroup
-            '.OnAction = "'" & ThisWorkbook.Name & "'!Procedure_One"
-            '.OnACtion = "'" & ThisWorkbook.Name & "'!" & OnACtion
             .OnACtion = OnACtion
-            .TooltipText = OnACtion
+            .ToolTipText = ToolTipText
             .tag = C_TAG
             .Enabled = Enabled
             .DescriptionText = DescriptionText
@@ -232,19 +319,14 @@ Public Sub ChangeRegistry_AccessVBOM()
     'helpde by Fernando
     Dim shl
     Dim Key As String
-    Key = "HKEY_CURRENT_USER oftware\Microsoft\Office\" & Application.Version & "\Excel ecurity\AccessVBOM"
+    Key = "HKEY_CURRENT_USER\Software\Microsoft\Office\" & Application.Version & "\Excel ecurity\AccessVBOM"
     Set shl = CreateObject("WScript.Shell")
- 
-     'Debug.Print shl.regRead(key)
-'     Call shl.regWrite("HKEY_CURRENT_USER oftware\Microsoft\Office\16.0\Common\Graphics\DisableAnimations", 1, "REG_DWORD")
      Call shl.RegWrite(Key, 1, "REG_DWORD")
 End Sub
-
-
-
-
 
 Public Sub MOSTRAR_ERRO(ByVal ERR_DESC As String, ByVal ERR_Number As String, ByVal Rotina As String)
     
 End Sub
+
+
 
