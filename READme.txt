@@ -12,6 +12,7 @@ How to use RVTools?
 2- Open excel and release the Developer tab.
 
 3- Go to the Developer tab, Click on Excel Add-ins.
+   (make sure that File->Options->Trust Center->Config Trust Center -> Macro Options-> Check the Checkbox "VBA manipulate VBE"
 
 4- Find the file Rvtoools.xlam BAixado and select.
 
