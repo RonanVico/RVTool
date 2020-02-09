@@ -90,7 +90,9 @@ Private Property Get PARAM_ERROR_HANDLER_DEFAULT() As String
      PARAM_ERROR_HANDLER_DEFAULT = "Fim:" & vbNewLine _
                             & "     Exit " & TypeProcedure & vbNewLine _
                             & PARAM_ERROR_HANDLER_NAME & ":" & vbNewLine _
-                            & "     Call MOSTRAR_ERRO(Err.Number, Err.Description, """ & ActiveProcedure & "()"")" & vbNewLine _
+                            & "     call msgbox(err.Number & err.Description)" & vbNewLine _
+                            & "     Goto Fim"
+                            '& "     Call MOSTRAR_ERRO(Err.Number, Err.Description, """ & ActiveProcedure & "()"")" & vbNewLine _
                             & "     Goto Fim"
 End Property
 '/\--------PARAMETROS------/\------------/\------------/\--------------/\-------------/\
@@ -1375,7 +1377,6 @@ Dim NEWeL&
 Dim NEWeC&
 Dim SomarSC&
 Dim SomarEC&
-
 Dim ProcInfo                           As ProcInfo
 Dim procKind                           As VBIDE.vbext_ProcKind
 Dim Linha                              As String
@@ -1384,6 +1385,7 @@ Dim CodigoParaInserir                  As String
 Dim novaLInha                          As String
 Dim tamanhoSnippet                     As Long
 Dim auxParam1                          As Variant
+Dim Middle                             As Boolean
 
     '#PT Pega a localizacao do cursor no codigo
     '#EN  Get the cursor position on code
@@ -1404,6 +1406,7 @@ Dim auxParam1                          As Variant
     'Return the variable of line
     Linha = VBA.Replace(Application.VBE.ActiveCodePane.CodeModule.Lines(sL, 1), " (", "(")
 
+    
     Select Case True
         Case VBA.LCase(TextoVerificar) Like "*fn"
             tamanhoSnippet = 2: SomarSC = 16: SomarEC = 8
@@ -1414,17 +1417,18 @@ Dim auxParam1                          As Variant
             CodigoParaInserir = "Public Sub MySUB_" & VBA.Chr(CInt(VBA.Rnd(2) * 100)) & "()" & _
             vbNewLine & vbNewLine & "End Sub"
         Case VBA.LCase(TextoVerificar) Like "*sub(*" Or VBA.LCase(TextoVerificar) Like "*sub (*"
-            auxParam1 = VBA.Replace(VBA.Split(TextoVerificar, "sub(")(1), ")", "")
+            auxParam1 = VBA.Replace(VBA.Split(TextoVerificar, "sub(", , vbTextCompare)(1), ")", "")
             tamanhoSnippet = 5 + VBA.Len(auxParam1) + IIf(VBA.LCase(TextoVerificar) Like "*sub (*", 1, 0)
             CodigoParaInserir = "Public Sub " & auxParam1 & "()" & _
             vbNewLine & vbNewLine & "End Sub"
+            Middle = True
         Case VBA.LCase(TextoVerificar) Like "*fn (*" Or VBA.LCase(TextoVerificar) Like "*fn(*"
-            auxParam1 = VBA.Replace(VBA.Split(TextoVerificar, "fn(")(1), ")", "")
+            auxParam1 = VBA.Replace(VBA.Split(TextoVerificar, "fn(", , vbTextCompare)(1), ")", "")
             tamanhoSnippet = VBA.Len(auxParam1) + 4 + IIf(TextoVerificar Like "*fn (*", 0, 1): SomarSC = 16 + VBA.Len(auxParam1) + 6: SomarEC = 7
             CodigoParaInserir = "Public Function " & auxParam1 & "() as Variant" & _
             vbNewLine & vbNewLine & "End Function"
         Case VBA.LCase(TextoVerificar) Like "*prop (*" Or VBA.LCase(TextoVerificar) Like "*prop(*"
-            auxParam1 = VBA.Replace(VBA.Split(TextoVerificar, "prop(")(1), ")", "")
+            auxParam1 = VBA.Replace(VBA.Split(TextoVerificar, "prop(", , vbTextCompare)(1), ")", "")
             tamanhoSnippet = VBA.Len(auxParam1) + 6 + IIf(TextoVerificar Like "*prop (*", 0, 2): SomarSC = 23 + VBA.Len(auxParam1): SomarEC = 8
             CodigoParaInserir = "Public Property Let " & auxParam1 & "(newValue)" & _
             vbNewLine & "m_" & auxParam1 & " = newValue " & _
@@ -1447,7 +1451,12 @@ Dim auxParam1                          As Variant
         On Error Resume Next
         Call Application.VBE.ActiveCodePane.SetSelection(sL, sC + SomarSC - tamanhoSnippet, sL, sC + SomarEC + SomarSC - tamanhoSnippet)
         Call InsertErrorTreatment
-        Call Application.VBE.ActiveCodePane.SetSelection(sL, sC + SomarSC - tamanhoSnippet, sL, sC + SomarEC + SomarSC - tamanhoSnippet)
+        
+        If Middle = True Then
+            Call Application.VBE.ActiveCodePane.SetSelection(sL + 2, 1, sL + 2, 1)
+        Else
+            Call Application.VBE.ActiveCodePane.SetSelection(sL, sC + SomarSC - tamanhoSnippet, sL, sC + SomarEC + SomarSC - tamanhoSnippet)
+        End If
     End If
 
 Fim:
