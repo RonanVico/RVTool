@@ -7,7 +7,7 @@ VBE Add-in For Excel, developed in VBA so you don't need to install anything.
 
 How to use RVTools?
 
-1- Download RVTools (.xlam)
+1- Download RVTools (.xla)
 
 2- Open excel and release the Developer tab.
 
@@ -23,7 +23,7 @@ Okay, every time you open Excel it will bring RVtools ready for you to use!
 
 Como usar o RVTools ?
 
-1- Baixe o RVTools (.xlam)
+1- Baixe o RVTools (.xla)
 
 2- Abra o excel e libere a aba de Desenvolvedor.
 
