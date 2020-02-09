@@ -119,8 +119,8 @@ Else
         .Add "Inserir/Editar", "Edit / &Insert"
         .Add "InsertProcedureHeader", "Insert &Header"
         .Add "insertErrorTreatment", "Insert &Error Treatment"
-        .Add "InsertLineNumber", "Insert &Error Treatment"
-        .Add "RemoveLineNumber", "Insert Line &Number"
+        .Add "InsertLineNumber", "Insert Line &Number"
+        .Add "RemoveLineNumber", "Remove Line &Number"
         .Add "IndentVariables", "&Ident Variables"
         '--
         .Add "AuxText", "Aux Texts"
