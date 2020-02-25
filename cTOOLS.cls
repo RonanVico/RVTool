@@ -9,7 +9,7 @@ Attribute VB_PredeclaredId = False
 Attribute VB_Exposed = False
 Option Explicit
 'Teste ASD
-'VERSaÆ’O  1.02.0
+'VERSAO  1.02.1
 
 '*MANUTENaâ€¡aâ€¢ES / MELHORIAS*
 'Criado por: Ronan Raphael Vico // ronanvico@hotmail.com // https://br.linkedin.com/in/ronan-vico
@@ -57,7 +57,7 @@ Private pInfo           As ProcInfo
        
         
 '-------- PARAMETROS
-'-------- ABAIXO ESTaÆ’O OS PARAMETROS UTILIZADOS PARA PROGRAMAaâ€¡aÆ’O
+'-------- ABAIXO ESTAO OS PARAMETROS UTILIZADOS PARA PROGRAMACAO
 Private Const QUEBRA_DE_LINHA                As String = "_VBNEWLINE!"
 Private Const tagVarInit                     As String = "[V@_"
 Private Const tagVarEnd                      As String = "@]"
@@ -139,7 +139,7 @@ Public Sub InsertErrorTreatment() 'Inserir Tratamento de Erro
     Dim sSplit
     Dim linQuebrada     As Long
     On Error GoTo t
-    'Verifica se estaÂ¡ numa procedure
+    'Verifica se ESTAO numa procedure
     'If not is in a procedure then exit sub
     If ActiveProcedure = "" Then Exit Sub
  
@@ -198,7 +198,7 @@ Public Sub InsertProcedureHeader()
     Dim slinha          As String
     Dim sSplit
     On Error GoTo t
-    'Verifica se estaÂ¡ numa procedure
+    'Verifica se ESTAO numa procedure
     'Check if is in a procedure
     If ActiveProcedure = "" Then Exit Sub
     'ebug.Print ActiveProcedure
@@ -443,7 +443,7 @@ End Sub
 
  
 
-'Remove Númeração de Linha
+'Remove numercao de Linha
 Public Sub RemoveLineNumber()
     Call ProcedureInfo(ActiveProcedure, Application.VBE.ActiveCodePane.CodeModule, pInfo.procKind)
     Call RemoveLineNumberProc(ActiveProcedure)
@@ -500,16 +500,16 @@ End Sub
 ' Data......: 08/02/2020
 ' Descricao.: Inside the proc is writed
 '---------------------------------------------------------------------------------------
-Public Function GetProcedureTextWithoutBreakLines(ProcedureName As String) As String
+Public Function GetProcedureTextWithoutBreakLines(ProcedureName As String, Optional cModule As CodeModule) As String
 '#PT Se tiver _ no final da linha de codigo , significa que a proxima linha pertence ao mesmo comando do VBA _
                Exemplo este comentario , a linha de baixo esta comentada de vido a esse Underline localizado /\ aqui _
                Logo , Iremos transformar tudo em "1 linha" para conseguirmos rodar funcoes de formatacao de texto _
                e posteriormente plotar de volta as qebras de llinhas no seus devidos lugares !
  
 '#EN If there is _ at the end of the code line, it means that the next line belongs to the same VBA command _
-               Example this comment, the bottom line is commented due to that Underline located / \ here _
-               Soon, we will transform everything into "1 line" to be able to run text formatting functions _
-               and then plot back the lines of lines in their proper places!
+            �Example this comment, the bottom line is commented due to that Underline located / \ here _
+            Soon, we will transform everything into "1 line" to be able to run text formatting functions _
+            and then plot back the lines of lines in their proper places!
  
  Dim proc                As ProcInfo
  Dim textAntComment      As String
@@ -517,7 +517,10 @@ Public Function GetProcedureTextWithoutBreakLines(ProcedureName As String) As St
  Dim line                As String
  Dim texto               As String
  Dim i                   As Long
-    proc = ProcedureInfo(ProcedureName, Application.VBE.ActiveCodePane.CodeModule, pInfo.procKind)
+ Dim procKind            As VBIDE.vbext_ProcKind
+ 
+    If cModule Is Nothing Then Set cModule = Application.VBE.ActiveCodePane.CodeModule
+    proc = ProcedureInfo(ProcedureName, cModule, procKind)
     With proc
         i = .ProcBodyLine
         While i <= (.ProcCountLines + .ProcStartLine) - 1
@@ -546,10 +549,10 @@ Public Function formataTexto(ByVal TextoOriginal As String, Optional ByRef MyArr
             por isso monto um array para posteriormente apos a formatacao pegar as strings e jogar de volta.
 
     '#EN Transform all strings into Variables within an array, so we can manipulate _
-                all the text without fear of being messing with data inside a string, for example _
-                a string can be MyString = "OLA: '", So the characters ":" and "'", are _
-                important in our text formatting, and we cannot consider it in formatting, _
-                so I set up an array for later, after formatting, take the strings and play them back.
+    all the text without fear of being messing with data inside a string, for example _
+    �a string can be MyString = "OLA: '", So the characters ":" and "'", are _
+    �important in our text formatting, and we cannot consider it in formatting, _
+   �so I set up an array for later, after formatting, take the strings and play them back.
 On Error GoTo TratarErro
 
 Dim arrVars()                          As Variant
@@ -627,12 +630,15 @@ End Function
 '#EN PART  4 --------------------------------------------\/ FUNCTIONS TO GET VBE DATAS
 '---------------------------------------------\/  --------------------------------------------\/'- --------------------------------------------\/  --------------------------------------------\/
 Private Function ProcedureInfo(ProcName As String, CodeMod As VBIDE.CodeModule, procKind As VBIDE.vbext_ProcKind) As ProcInfo
- Dim BodyLine            As Long
+On Error GoTo TError
+ Dim bodyLine            As Long
  Dim Declaration         As String
  Dim FirstLine           As String
- 
-    BodyLine = CodeMod.ProcStartLine(ProcName, pInfo.procKind)
-    If BodyLine > 0 Then
+
+
+    procKind = GetProcKind(ProcName, CodeMod)
+    bodyLine = CodeMod.ProcStartLine(ProcName, procKind)
+    If bodyLine > 0 Then
         With CodeMod
             pInfo.ProcName = ProcName
             pInfo.procKind = procKind
@@ -656,8 +662,29 @@ Private Function ProcedureInfo(ProcName As String, CodeMod As VBIDE.CodeModule, 
  
     ProcedureInfo = pInfo
  
+Fim:
+     Exit Function
+     Resume
+TError:
+     Call MsgBox(Err.Number & Err.Description)
+     Stop
+     GoTo Fim
  End Function
  
+Private Function GetProcKind(ProcName As String, CodeMod As VBIDE.CodeModule) As VBIDE.vbext_ProcKind
+    Dim i                   As Long
+    Dim bodyLine           As Long
+  'Get the Proc Kind
+    On Error Resume Next
+    Do
+        Err.Clear
+        bodyLine = CodeMod.ProcStartLine(ProcName, i)
+        i = i + 1
+    Loop While Err.Number <> 0 And i <= 3 'Vbext_Pk_Get
+    GetProcKind = i - 1
+End Function
+
+
 Private Function GetProcedureDeclaration(CodeMod As VBIDE.CodeModule, _
     ProcName As String, _
     Optional LineSplitBehavior As LineSplits = LineSplitRemove)
@@ -1093,8 +1120,16 @@ Dim strRegexPatter                     As String
 Dim DicVariaveis                       As New Scripting.Dictionary
 Dim VariaveisNaoUsadas                 As Variant
 Dim contVarsNaoUsadas                  As Long
+Dim lin                                As Long
+
     textoProc = GetProcedureTextWithoutBreakLines(ActiveProcedure)
+    textoProc = formataTexto2(textoProc)
     linhas = VBA.Split(textoProc, vbNewLine)
+    For lin = LBound(linhas, 1) To UBound(linhas, 1)
+        If linhas(lin) <> vbNullString Then
+            linhas(lin) = VBA.Split(linhas(lin), "'")(0)
+        End If
+    Next lin
     For contLine = 0 To UBound(linhas)
         Linha = linhas(contLine)
         Linha = formataTexto(Linha, ArrAux)
@@ -1129,13 +1164,21 @@ Dim contVarsNaoUsadas                  As Long
     Next contLine
     For Each VariaveisNaoUsadas In DicVariaveis
         If DicVariaveis(VariaveisNaoUsadas) = False And VariaveisNaoUsadas <> "" Then
-            Debug.Print "Variavel Nao Usada: " & VariaveisNaoUsadas
+            If PT_BR() Then
+                Debug.Print "Variavel Nao Usada: " & VariaveisNaoUsadas
+            Else
+                Debug.Print "Unused Variable   : " & VariaveisNaoUsadas
+            End If
             contVarsNaoUsadas = contVarsNaoUsadas + 1
         End If
     Next
 
     If contVarsNaoUsadas = 0 Then
-        Debug.Print "Todas as variaveis estao sendo utilizadas , Parabens mano!"
+        If PT_BR() Then
+            Debug.Print "Todas as variaveis estao sendo utilizadas , Parabens mano!"
+        Else
+            Debug.Print "Congratz Bro , you do not have Unused Variables in this proc!"
+        End If
     End If
 
 Fim:
@@ -1163,10 +1206,10 @@ Public Function formataTexto2(ByVal TextoOriginal As String, Optional ByRef MyAr
             por isso monto um array para posteriormente apos a formatacao pegar as strings e jogar de volta.
 
 '#EN Transform all strings into Variables within an array, so we can manipulate _
-            all the text without fear of being messing with data inside a string, for example _
-            a string can be MyString = "OLA: '", So the characters ":" and "'", are _
-            important in our text formatting, and we cannot consider it in formatting, _
-            so I set up an array for later, after formatting, take the strings and play them back.
+                                            all the text without fear of being messing with data inside a string, for example _
+                                            a string can be MyString = "OLA: '", So the characters ":" and "'", are _
+                                            important in our text formatting, and we cannot consider it in formatting, _
+                                            so I set up an array for later, after formatting, take the strings and play them back.
  On Error GoTo TratarErro
 
 Dim arrVars()           As Variant: Dim contVar            As Long: Dim i                  As Long:
@@ -1293,7 +1336,7 @@ Dim Folder                             As String
     Const URL_PROJETO = "https://github.com/RonanVico/RVTool/archive/master.zip"
 
 
-    Folder = ThisWorkbook.path & "\RVTool" & VBA.Format(VBA.Now(), "ddmmyyyyhhmmss") & "new"
+    Folder = ThisWorkbook.Path & "\RVTool" & VBA.Format(VBA.Now(), "ddmmyyyyhhmmss") & "new"
     Call VBA.FileSystem.MkDir(Folder)
     Call URLDownloadToFile(0, URL_PROJETO, Folder & ".zip", 0, 0)
     File = Folder & ".zip\RVTool-master"
@@ -1314,7 +1357,7 @@ Dim Folder                             As String
                     Exit For
                 End If
             Next vbCOMP
-            Call vbProj.VBComponents.Import(fl.path)
+            Call vbProj.VBComponents.Import(fl.Path)
         End If
     Next fl
 
@@ -1346,7 +1389,7 @@ Sub TryTodeleteFolder()
     Dim fold As Scripting.Folder
     Dim fold2 As Scripting.Folder
     
-    Set fold = FSO.GetFolder(ThisWorkbook.path)
+    Set fold = FSO.GetFolder(ThisWorkbook.Path)
     
     For Each fold2 In fold.SubFolders
         If VBA.LCase(fold2.Name) Like "*rvtool*new*" Then
@@ -1520,40 +1563,37 @@ End Sub
 
 '-- FEITO POR RONAN VICO 04/02/2020
 '-- NA LIVE DO GUIA DO EXCEL
-Public Sub IdentAProcedure(Optional procedure As String = vbNullString)
+Public Sub IdentAProcedure(Optional procedure As String = vbNullString, Optional vbCodeModule As CodeModule)
     On Error GoTo TError
 Dim DicOpenIdentWords                  As New Scripting.Dictionary
 Dim arrWords                           As Variant
-Dim contWord                           As Long
 Dim lin                                As Long
 Dim arrLinhas                          As Variant
 Dim strLinha                           As String
 Dim Key                                As Variant
-Dim actProc                            As String
 Dim bSomarTAB                          As Boolean
 Dim bSubtrairTAB                       As Boolean
 Dim contQuantidadeIndentar             As Long
 Dim vbProj                             As VBIDE.VBProject
-Dim vbCodeModule                       As VBIDE.CodeModule
 Dim NEW_CODE_TEXT                      As String
 
-    Set vbCodeModule = Application.VBE.ActiveCodePane.CodeModule
+    If vbCodeModule Is Nothing Then
+        Set vbCodeModule = Application.VBE.ActiveCodePane.CodeModule
+    End If
     If procedure = vbNullString Then
         procedure = ActiveProcedure
     End If
 
 
     Const caracterDeIndentacao  As String = PARAM_CHAR_IndentacaO
-
-
-    
     
     contQuantidadeIndentar = 0
     With DicOpenIdentWords
         .Add "Do |Do$", "(Loop)"
         .Add "For ", "(Next)"
-        .Add "If .*Then$", "(Else$|ElseIf .*&Then$|End If$)"
-        .Add "ElseIf ", "(Else$|ElseIf .*&Then$|End If$)"
+        'This line will be ok for if and Elseif
+        .Add "If .*Then$", "(Else$|ElseIf .* Then$|End If$)"
+'        .Add "ElseIf ", "(Else$|ElseIf.*&Then$|End If$)"
         .Add "Else$", "(End If)"
         .Add "While ", "(Wend)"
         .Add "Select Case", "(End Select)"
@@ -1640,19 +1680,21 @@ Dim arrVars                            As Variant
         If bSomarTAB Then contQuantidadeIndentar = contQuantidadeIndentar + 1
     Next lin
 
-
-    While arrLinhas(UBound(arrLinhas)) = vbNullString
-        ReDim Preserve arrLinhas(0 To UBound(arrLinhas) - 1)
-    Wend
-
-    NEW_CODE_TEXT = VBA.Join(arrLinhas, vbCrLf)
-
-    With pInfo
-        Call vbCodeModule.DeleteLines(.ProcBodyLine, .ProcCountLines - (.ProcBodyLine - .ProcStartLine))
-        Call vbCodeModule.InsertLines(.ProcBodyLine, NEW_CODE_TEXT)
-    End With
-
-    Call IndentVariables(actProc)
+    '25 02 2020
+    If UBound(arrLinhas) >= 0 Then
+        While arrLinhas(UBound(arrLinhas)) = vbNullString
+            ReDim Preserve arrLinhas(0 To UBound(arrLinhas) - 1)
+        Wend
+    
+        NEW_CODE_TEXT = VBA.Join(arrLinhas, vbCrLf)
+    
+        With pInfo
+            Call vbCodeModule.DeleteLines(.ProcBodyLine, .ProcCountLines - (.ProcBodyLine - .ProcStartLine))
+            Call vbCodeModule.InsertLines(.ProcBodyLine, NEW_CODE_TEXT)
+        End With
+    End If
+    
+    Call IndentVariables(procedure)
 
 Fim:
     Exit Sub
@@ -1661,6 +1703,73 @@ TError:
     Stop
     Resume
     GoTo Fim
+End Sub
+
+
+'---------------------------------------------------------------------------------------
+' Autor.....: RONAN VICO
+' Contato...: ronanvico@hotmail.com.br - Empresa: Ronan Vico - Rotina: Public Sub IdentModule()
+' Data......: 25/02/2020
+' Descricao.: Run to ident all the module
+'---------------------------------------------------------------------------------------
+Public Sub IdentModule()
+    Dim msg As String
+    If PT_BR() Then
+        msg = "Deseseja realmente identar o m�dulo inteiro ?! Pode demorar um pouco..."
+    Else
+        msg = "Are you sure that you want ident all the module?! This could take a while..."
+    End If
+    If MsgBox(msg, vbExclamation + vbYesNo, IIf(PT_BR, "Identar Modulo", "Ident Module")) = vbYes Then
+        IdentTheModule Application.VBE.ActiveCodePane.CodeModule
+    End If
+End Sub
+
+'---------------------------------------------------------------------------------------
+' Autor.....: RONAN VICO
+' Contato...: ronanvico@hotmail.com.br - Empresa: Ronan Vico - Rotina: Private Sub IdentTheModule(strName As String)
+' Data......: 25/02/2020
+' Descricao.: Ident All the Module
+'---------------------------------------------------------------------------------------
+Private Sub IdentTheModule(strName As String)
+On Error GoTo TError
+    'Microsoft Visual Basic for Applications Extensibility 5.3 library
+Dim vbProj                             As VBIDE.VBProject
+Dim vbCOMP                             As VBIDE.VBComponent
+Dim CodeMod                            As VBIDE.CodeModule
+Dim LineNum                            As Long
+Dim ProcName                           As String
+Dim procKind                           As VBIDE.vbext_ProcKind
+Dim strSubsInfo                        As String
+Dim i                                  As Long
+Dim arrProc
+
+    Set vbProj = Application.VBE.ActiveVBProject
+    Set vbCOMP = vbProj.VBComponents(strName)
+    Set CodeMod = vbCOMP.CodeModule
+
+    With CodeMod
+        LineNum = .CountOfDeclarationLines + 1
+
+        Do Until LineNum >= .CountOfLines
+            ProcName = .ProcOfLine(LineNum, procKind)
+            strSubsInfo = strSubsInfo & ";" & ProcName
+            LineNum = .ProcStartLine(ProcName, procKind) + .ProcCountLines(ProcName, procKind) + 1
+        Loop
+    End With
+    
+    If VBA.Len(strSubsInfo) > 1 Then
+        strSubsInfo = VBA.Mid(strSubsInfo, 2)
+        arrProc = VBA.Split(strSubsInfo, ";")
+        For i = LBound(arrProc, 1) To UBound(arrProc, 1)
+            Call IdentAProcedure(VBA.CStr(arrProc(i)), CodeMod)
+        Next i
+    End If
+Fim:
+     Exit Sub
+TError:
+     'Call MOSTRAR_ERRO(Err.Number, Err.Description, "ListProcedures()")
+     Stop
+     GoTo Fim
 End Sub
 
 

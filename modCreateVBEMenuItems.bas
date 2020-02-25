@@ -1,7 +1,5 @@
 Attribute VB_Name = "modCreateVBEMenuItems"
 Option Explicit
-
-'VERSaO  1.01.0
 ''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
 'Feito Por: Ronan Vico
 'Descricao: Este modulo possui Rotinas para criacao do botao na Barra de Comandos do VBE (Visual Basic Editor)
@@ -112,6 +110,8 @@ If PT_BR() Then
         .Add "aboutme", "About Creator"
         '--
         .Add "IndentarProcedure", "Indentar &Procedure"
+        .Add "IndentarModule", "Identar Modulo"
+        '--
         .Add "Change_Region", "Change Tool Lenguage to English"
 Else
         .Add "Snippets", "Auto Complete Code Snippe&t"
@@ -120,7 +120,7 @@ Else
         .Add "InsertProcedureHeader", "Insert &Header"
         .Add "insertErrorTreatment", "Insert &Error Treatment"
         .Add "InsertLineNumber", "Insert Line &Number"
-        .Add "RemoveLineNumber", "Remove Line &Number"
+        .Add "RemoveLineNumber", "&Remove Line Number"
         .Add "IndentVariables", "&Ident Variables"
         '--
         .Add "AuxText", "Aux Texts"
@@ -151,6 +151,8 @@ Else
         .Add "aboutme", "About Creator"
         '--
         .Add "IndentarProcedure", "Ident &Procedure"
+        .Add "IndentarModule", "Ident Module"
+        '--
         .Add "Change_Region", "Trocar Tool para Portugues"
 End If
     End With
@@ -241,11 +243,12 @@ End If
     '----------------------------------------------------------
     Call AddMenuButton(DicButtons("Atualizar_RVTool"), True, "Atualizar_RVTool", 37) '654
     '----------------------------------------------------------
-    Call AddMenuButton(DicButtons("IndentarProcedure"), True, "IndentarProcedure", 1556)  '66
+    Call AddMenuButton(DicButtons("IndentarProcedure"), True, "IndentarProcedure", 121)  '66
+    Call AddMenuButton(DicButtons("IndentarModule"), False, "IdentModule", 176)  '66
     '----------------------------------------------------------
     Call AddMenuButton(DicButtons("Change_Region"), True, "Change_Region", 5765) '66
     '-----------------------------------------------------------------
-    Call AddMenuButton(DicButtons("aboutme"), True, "aboutme", 59) '66
+    Call AddMenuButton(DicButtons("aboutme") & " - V." & VERSAO, True, "aboutme", 59)  '66
 
 End Sub
 
@@ -320,9 +323,9 @@ Public Sub ChangeRegistry_AccessVBOM()
     'helpde by Fernando
     Dim shl
     Dim Key As String
-    Key = "HKEY_CURRENT_USER\Software\Microsoft\Office\" & Application.Version & "\Excel ecurity\AccessVBOM"
+    Key = "HKEY_CURRENT_USER\Software\Microsoft\Office\" & Application.Version & "\Excel Security\AccessVBOM"
     Set shl = CreateObject("WScript.Shell")
-     Call shl.RegWrite(Key, 1, "REG_DWORD")
+    Call shl.RegWrite(Key, 1, "REG_DWORD")
 End Sub
 
 Public Sub MOSTRAR_ERRO(ByVal ERR_DESC As String, ByVal ERR_Number As String, ByVal Rotina As String)
