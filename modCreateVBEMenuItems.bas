@@ -113,7 +113,7 @@ If PT_BR() Then
         .Add "IndentarModule", "Identar Modulo"
         '--
         .Add "Change_Region", "Change Tool Lenguage to English"
-        .Add "ContextMenu", "Create ContextMenu for Excel!"
+        .Add "ContextMenu", "Cria Menu RVTOOLS Clique Direito no Excel!"
 Else
         .Add "Snippets", "Auto Complete Code Snippe&t"
         '--
@@ -155,7 +155,7 @@ Else
         .Add "IndentarModule", "Ident Module"
         '--
         .Add "Change_Region", "Trocar Tool para Portugues"
-        .Add "ContextMenu", "Cria Menu RVTOOLS Clique Direito no Excel!"
+        .Add "ContextMenu", "Create ContextMenu for Excel!"
 End If
     End With
     
@@ -337,3 +337,4 @@ End Sub
 
 
 
+        Ìõ¸‹ €     "8`   X:
