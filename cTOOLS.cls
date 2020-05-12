@@ -1355,7 +1355,7 @@ Dim Folder                             As String
             For Each vbCOMP In vbProj.VBComponents
                 If vbCOMP.Type <> 100 And (VBA.UCase(vbCOMP.Name) Like "*_" Or VBA.UCase(vbCOMP.Name) Like "*1" Or VBA.UCase(vbCOMP.Name) Like "*2") Then
                     Call vbProj.VBComponents.Remove(vbCOMP)
-                    For i = 1 To 2000: VBA.DoEvents: Next i
+                    For i = 1 To 5000: VBA.DoEvents: Next i
                 End If
             Next vbCOMP
             
