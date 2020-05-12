@@ -1341,7 +1341,7 @@ Dim Folder                             As String
     Call URLDownloadToFile(0, URL_PROJETO, Folder & ".zip", 0, 0)
     File = Folder & ".zip\RVTool-master"
     With CreateObject("Shell.Application")
-        .Namespace(Folder & "\").CopyTextHere .Namespace(Folder & ".zip\").Items
+        .Namespace(Folder & "\").CopyHere .Namespace(Folder & ".zip\").Items
     End With
 
     For i = 1 To 1000: VBA.DoEvents: Next i
@@ -1784,4 +1784,4 @@ Public Sub ExcelContextMenu()
     Call mod_WindowsRegistry.CreateContextMenuForExcel
 End Sub
 
-  D 	  Ôæ&Mkf&Mµf.   >x                   ∏9≠ S a n t a n d e r    n 1     &M∂f AGB9EB~1  V 	  Ôæ&Mµf&M∂f.   ‡w    „               ¥ÂQ A G 2 2 7 1 _ C C 1 3 0 3 0 5 2 2 2      2 Oy  &Mµf  EXTRAT~1.XLS  é 	  Ôæ&Mµf&M∑f.   @y                   Å) E X T R A T O _ 2 2 7 1 _ 1 3 0 3 0 5 2 2 2 _ 0 8 0 8 2 0 1 8 _ a _ 0 6 0 9 2 0 1 8 . x l s    *    Ôæ E x c e l . S h e e t . 8        e f a c t o r H <pgd Ä P‡O– Í:i¢ÿ +00ù /C:\                   ` 1     Mä VBASYS~1  H 	  ÔæMä&M&f.   ˜S 
+Ôæ        .                             D e s k t o p    J 1          MOS 8 	  Ôæ        .                             M O S    x 1          MOSExcelExpert2016  V 	  Ôæ        .                             M O S E x c e l E x p e r t 2 0 1 6   " ` 1          Objective1  F 	  Ôæ        .                             O b j e c t i v e 1    ¨ 2 rG  NIÂi  ExcelExpert_1-2b.xlsx \ 	  ÔæXNô†XNÙÆ.   íè                      E x c e l E x p e r t _ 1 - 2 b . x l s x   $ ,    Ôæ E x c e l . S h e e t . 1 
