@@ -108,6 +108,7 @@ If PT_BR() Then
         .Add "Atualizar_RVTool", "Update RVTOOL"
         '--
         .Add "aboutme", "About Creator"
+        .Add "ContextMenu", "Create ContextMenu for Excel"
         '--
         .Add "IndentarProcedure", "Indentar &Procedure"
         .Add "IndentarModule", "Identar Modulo"
@@ -154,6 +155,8 @@ Else
         .Add "IndentarModule", "Ident Module"
         '--
         .Add "Change_Region", "Trocar Tool para Portugues"
+        .Add "ContextMenu", "Criar Menu RVTools Clique Direito no Excel!"
+        
 End If
     End With
     
@@ -248,6 +251,7 @@ End If
     '----------------------------------------------------------
     Call AddMenuButton(DicButtons("Change_Region"), True, "Change_Region", 5765) '66
     '-----------------------------------------------------------------
+    Call AddMenuButton(DicButtons("ContextMenu"), True, "ExcelContextMenu", 66)  '66
     Call AddMenuButton(DicButtons("aboutme") & " - V." & VERSAO, True, "aboutme", 59)  '66
 
 End Sub
@@ -334,3 +338,4 @@ End Sub
 
 
 
+                       
