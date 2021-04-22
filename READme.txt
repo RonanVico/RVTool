@@ -5,7 +5,7 @@ https://t.me/RonanVico
 
 ALTEREI O LOCAL DO ARQUIVO , POIS O GITHUB FICA BLOQUEANDO DOWNLOAD DE XLS,
 
-
+SE INSCREVA: https://youtube.com/c/ronanvico
 
 VBE Add-in For Excel, developed in VBA so you dont need to install anything.
 
