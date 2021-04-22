@@ -1,4 +1,11 @@
 
+O ARQUIVO AGORA ESTÁ NO MEU GRUPO DO TELEGRAM
+
+https://t.me/RonanVico
+
+ALTEREI O LOCAL DO ARQUIVO , POIS O GITHUB FICA BLOQUEANDO DOWNLOAD DE XLS,
+
+
 
 VBE Add-in For Excel, developed in VBA so you dont need to install anything.
 
